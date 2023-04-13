@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'Check ATM status',
     'Upload ATM status',
     'Help/Contact Us',
-    'Money Trend',
+    'Money Trends',
     'Contact A Bank',
     'Refer a friend'
   ];
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: size.height * 0.45),
+                constraints: BoxConstraints(maxHeight: size.height * 0.35),
                 child: GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     gridDelegate:
