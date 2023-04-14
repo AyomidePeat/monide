@@ -39,10 +39,15 @@ dependencies:
   flutter_riverpod: ^2.3.4
   firebase_core: ^2.9.0
   firebase_auth: ^4.4.0
-  cloud_firestore: ^4.3.1
+  cloud_firestore: ^4.5.1
   flutter_zoom_drawer: ^3.0.4+1
   intl: ^0.17.0
-  google_maps_flutter: ^2.2.5
+  geolocator: ^9.0.2
+
+  map: ^1.4.1
+  latlong2: ^0.8.1
+  #flutter_map_tile_caching: ^7.2.0
+  flutter_map: ^0.14.0
 
 dev_dependencies:
   flutter_test:

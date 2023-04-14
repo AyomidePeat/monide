@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:road_mechanic/constants/colors.dart';
 import 'package:road_mechanic/constants/screens.dart';
 import 'package:road_mechanic/screens/login_screen.dart';
+import 'package:road_mechanic/services/map.api.dart';
 import 'package:road_mechanic/widgets/custom_container.dart';
 
 import '../widgets/menu.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String location;
+  const HomeScreen({super.key, required this.location});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -58,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
               MenuWidget(),
               Text('$greeting John Doe', style: TextStyle(fontSize: 13)),
               Container(
-                  width: size.width * 0.2,
+             padding: EdgeInsets.only(right:5),
                   height: 30,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 32, 68, 97),
@@ -74,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.white,
                       ),
                       Text(
-                        'Akure',
+                        widget.location,
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       )
                     ],
@@ -82,7 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           iconTheme: const IconThemeData(color: Colors.white)),
-      body: SingleChildScrollView(physics: BouncingScrollPhysics(),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
           child: Column(
@@ -193,7 +197,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }),
               ),
-             
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -216,7 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold))),
                 ],
               ),
-              Image.network('https://www.ubagroup.com/wp-content/uploads/2018/09/UBA-logo-6.gif')
+              Image.network(
+                  'https://www.ubagroup.com/wp-content/uploads/2018/09/UBA-logo-6.gif')
             ],
           ),
         ),

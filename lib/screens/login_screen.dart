@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:road_mechanic/screens/home_screen.dart';
 import 'package:road_mechanic/screens/signup_screen.dart';
+import 'package:road_mechanic/services/map.api.dart';
 import 'package:road_mechanic/widgets/navigation_screen.dart';
 
 import '../constants/colors.dart';
+final locationProvider = Provider((ref) => mapApiProvider);
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+ ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenConsumerState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
+   String actualLocation = 'unknown';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool obscure = true;
@@ -24,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+     final locationRef = ref.watch(mapApiProvider);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: blackColor,
@@ -102,9 +109,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     const EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
                 child: SizedBox(
                   width: double.infinity,
-                  child: CustomButton(text:'Log in', onPressed:  () {
+                  child: CustomButton(text:'Log in', onPressed:  () async {
+                // Use the geolocator package to get the user's current location
+                Position position = await Geolocator.getCurrentPosition(
+                    desiredAccuracy: LocationAccuracy.high);
+
+                // Pass the latitude and longitude to the BingsMapApi to decode the location
+                final bingsMapApi = locationRef;
+                final defLocation = await bingsMapApi.getLocation(
+                    position.latitude, position.longitude);
+                
+                  setState(() {
+                    actualLocation = defLocation;
+                  });
+                    
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NavigationScreen()));
+            MaterialPageRoute(builder: (context) => HomeScreen(location: actualLocation,)));
       },),
                 ),
               ),

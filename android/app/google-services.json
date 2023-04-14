@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "402316714563",
+    "project_id": "moniede",
+    "storage_bucket": "moniede.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402316714563:android:3b7cb9cf9c978b5753eaf6",
+        "android_client_info": {
+          "package_name": "com.example.road_mechanic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402316714563-kcdj43kefh9sbsff9gbu6g7ejj9jq1rl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmmgW_HAmR_pnOQXrQJPPOHzTDphfeQh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402316714563-kcdj43kefh9sbsff9gbu6g7ejj9jq1rl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

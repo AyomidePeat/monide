@@ -17,7 +17,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget getScreen() {
     switch (currentItem) {
       case MenuItems.home:
-        return HomeScreen();
+     //   return HomeScreen();
       case MenuItems.feedback:
         return FeedBackScreen();
       //   case MenuItems.info:
@@ -31,7 +31,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       //     case MenuItems.refer
       //      return ReferAndEarnScreen();
       default:
-        return HomeScreen();
+        return FeedBackScreen();
     }
   }
 

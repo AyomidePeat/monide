@@ -45,10 +45,10 @@ packages:
     dependency: "direct main"
     description:
       name: cloud_firestore
-      sha256: "3a2dba23d7d084a2d3c2dfd240d2122908cca40bab2d142f7e107f40df174ab5"
+      sha256: f5431cf41ab5c5e9c64e03ac2af103e10be22bf89020f394130c04b81add0010
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.0"
+    version: "4.5.1"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: cloud_firestore_web
-      sha256: bc1fbcd6287acedded1139c9b13cfd47e792d5198f130f98759464839ea510a7
+      sha256: "228f1944fb3c61ddf5de3647ec5b6ed88d6aacb0a4d485ef597c1211fe98ef8b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
+    version: "3.4.1"
   collection:
     dependency: transitive
     description:
@@ -150,14 +150,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
+  flutter_map:
+    dependency: "direct main"
     description:
-      name: flutter_plugin_android_lifecycle
-      sha256: c224ac897bed083dabf11f238dd11a239809b446740be0c2044608c50029ffdf
+      name: flutter_map
+      sha256: a978283c3f2dfb1a626350a7ab32e13380148fe9b710cac8e7a7db55e0bab666
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.9"
+    version: "0.14.0"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -184,38 +184,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.4+1"
-  google_maps_flutter:
+  geolocator:
     dependency: "direct main"
     description:
-      name: google_maps_flutter
-      sha256: "24392ef192f3b00bcd93151375676805a9933574423a5bd5509a0ead2e8a4215"
+      name: geolocator
+      sha256: "5c23f3613f50586c0bbb2b8f970240ae66b3bd992088cf60dd5ee2e6f7dde3a8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.2"
+  geolocator_android:
+    dependency: transitive
+    description:
+      name: geolocator_android
+      sha256: "2ba24690aee0a3e1b6b7bd47c2711a50c874e95e4c758346589d35194adf6d6a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.7"
+  geolocator_apple:
+    dependency: transitive
+    description:
+      name: geolocator_apple
+      sha256: "22b60ca3b8c0f58e6a9688ff855ee39ab813ca3f0c0609a48d282f6631266f2e"
       url: "https://pub.dev"
     source: hosted
     version: "2.2.5"
-  google_maps_flutter_android:
+  geolocator_platform_interface:
     dependency: transitive
     description:
-      name: google_maps_flutter_android
-      sha256: ee3c1a63983b8ba17a9a7c1233c3542fbfbc0ebf540d3aa9b8fd5162681e0219
+      name: geolocator_platform_interface
+      sha256: af4d69231452f9620718588f41acc4cb58312368716bfff2e92e770b46ce6386
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.10"
-  google_maps_flutter_ios:
+    version: "4.0.7"
+  geolocator_web:
     dependency: transitive
     description:
-      name: google_maps_flutter_ios
-      sha256: e9ad74415a222573625a2c1717adc1e375b18e8ce660fc12db734d1bda1132d4
+      name: geolocator_web
+      sha256: f68a122da48fcfff68bbc9846bb0b74ef651afe84a1b1f6ec20939de4d6860e1
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
-  google_maps_flutter_platform_interface:
+    version: "2.1.6"
+  geolocator_windows:
     dependency: transitive
     description:
-      name: google_maps_flutter_platform_interface
-      sha256: a07811d2b82055815ede75e1fe4b7b76f71a0b4820b26f71bdaddd157d6a3e20
+      name: geolocator_windows
+      sha256: f5911c88e23f48b598dd506c7c19eff0e001645bdc03bb6fecb9f4549208354d
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.6"
+    version: "0.1.1"
   http:
     dependency: "direct main"
     description:
@@ -248,6 +264,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
+  latlng:
+    dependency: transitive
+    description:
+      name: latlng
+      sha256: "7184897f8c807eec96b0ec931293d46c052f92bfee9a9b2b4648b66fed5f34cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
+  latlong2:
+    dependency: "direct main"
+    description:
+      name: latlong2
+      sha256: "408993a0e3f46e79ce1f129e4cb0386eef6d48dfa6394939ecacfbd7049154ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.1"
   lints:
     dependency: transitive
     description:
@@ -256,6 +288,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  lists:
+    dependency: transitive
+    description:
+      name: lists
+      sha256: "4ca5c19ae4350de036a7e996cdd1ee39c93ac0a2b840f4915459b7d0a7d4ab27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+  map:
+    dependency: "direct main"
+    description:
+      name: map
+      sha256: "64e39420db7172080d220d27d3e514cd66646b280b52ef9d76cdb8f2469188dc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
   matcher:
     dependency: transitive
     description:
@@ -280,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  mgrs_dart:
+    dependency: transitive
+    description:
+      name: mgrs_dart
+      sha256: fb89ae62f05fa0bb90f70c31fc870bcbcfd516c843fb554452ab3396f78586f7
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   path:
     dependency: transitive
     description:
@@ -296,6 +352,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  positioned_tap_detector_2:
+    dependency: transitive
+    description:
+      name: positioned_tap_detector_2
+      sha256: "52e06863ad3e1f82b058fd05054fc8c9caeeb3b47d5cea7a24bd9320746059c1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
+  proj4dart:
+    dependency: transitive
+    description:
+      name: proj4dart
+      sha256: c8a659ac9b6864aa47c171e78d41bbe6f5e1d7bd790a5814249e6b68bc44324e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   riverpod:
     dependency: transitive
     description:
@@ -341,14 +413,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  stream_transform:
-    dependency: transitive
-    description:
-      name: stream_transform
-      sha256: "14a00e794c7c11aa145a170587321aedce29769c08d7f58b1d141da75e3b1c6f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   string_scanner:
     dependency: transitive
     description:
@@ -373,6 +437,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  transparent_image:
+    dependency: transitive
+    description:
+      name: transparent_image
+      sha256: e8991d955a2094e197ca24c645efec2faf4285772a4746126ca12875e54ca02f
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      sha256: "0ea99cd2f9352b2586583ab2ce6489d1f95a5f6de6fb9492faaf97ae2060f0aa"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -381,6 +461,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  unicode:
+    dependency: transitive
+    description:
+      name: unicode
+      sha256: "0f69e46593d65245774d4f17125c6084d2c20b4e473a983f6e21b7d7762218f1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   vector_math:
     dependency: transitive
     description:
@@ -389,6 +477,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  wkt_parser:
+    dependency: transitive
+    description:
+      name: wkt_parser
+      sha256: "8a555fc60de3116c00aad67891bcab20f81a958e4219cc106e3c037aa3937f13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
 sdks:
   dart: ">=2.19.6 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.0.0"
