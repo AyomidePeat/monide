@@ -17,7 +17,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
-   String actualLocation = 'unknown';
+   var actualLocation='Unknown';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool obscure = true;
@@ -37,7 +37,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
-          child: Column(
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
                 height: size.height / 2.5,
@@ -48,73 +48,71 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                   scale: 0.5,
                 ),
               ),
-              const Text(
-                "Login",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontFamily: "Rubik",
-                    fontWeight: FontWeight.bold),
+                 const Text(
+                    "Login",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontFamily: "Rubik",
+                        fontWeight: FontWeight.bold),
+                  ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      labelText: 'Email',
+                      labelStyle:
+                          TextStyle(color: Colors.white, fontSize: 15),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: deepBlue)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white))),
+                ),
               ),
               Padding(
-                  padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(
+                  height: 70,
                   child: TextField(
-                    style: const TextStyle(color: Colors.white),
+                    obscureText: obscure,
+                    style: const TextStyle(color: Colors.white, fontSize: 15),
                     cursorColor: Colors.white,
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                        labelText: 'Email',
-                        labelStyle:
-                            TextStyle(color: Colors.white, fontSize: 15),
-                        enabledBorder: UnderlineInputBorder(
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide.none),
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(color: Colors.white),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscure = !obscure;
+                              });
+                            },
+                            icon: Icon(
+                                obscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.white,
+                                size: 15)),
+                        enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: deepBlue)),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white))),
-                  )),
+                  ),
+                ),
+              ),
               Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: SizedBox(
-                    height: 70,
-                    child: TextField(
-                      obscureText: obscure,
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
-                      cursorColor: Colors.white,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none),
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(color: Colors.white),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  obscure = !obscure;
-                                });
-                              },
-                              icon: Icon(
-                                  obscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.white,
-                                  size: 15)),
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: deepBlue)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white))),
-                    ),
-                  )),
-              Padding(
-                padding:
-                    const EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: SizedBox(
                   width: double.infinity,
                   child: CustomButton(text:'Log in', onPressed:  () async {
-                // Use the geolocator package to get the user's current location
                 Position position = await Geolocator.getCurrentPosition(
-                    desiredAccuracy: LocationAccuracy.high);
-
-                // Pass the latitude and longitude to the BingsMapApi to decode the location
+                    desiredAccuracy: LocationAccuracy.bestForNavigation);
                 final bingsMapApi = locationRef;
                 final defLocation = await bingsMapApi.getLocation(
                     position.latitude, position.longitude);
@@ -123,11 +121,12 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                     actualLocation = defLocation;
                   });
                     
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomeScreen(location: actualLocation,)));
-      },),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen(location: actualLocation,)));
+                },),
                 ),
               ),
+              const SizedBox(height:10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -148,27 +147,29 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                               fontWeight: FontWeight.bold))),
                 ],
               ),
+               const SizedBox(height:10),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, top: 40.0, bottom: 15, right: 20),
+                padding: const EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      width: 170,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Google"),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            side: BorderSide(color: deepBlue, width: 2),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                    Expanded(
+                      child: SizedBox(
+                      //  width: 150,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Google"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              side: BorderSide(color: deepBlue, width: 2),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: 170,
+                    SizedBox(width: 7),
+                    Expanded(
                       child: ElevatedButton(
                         onPressed: () {},
                         child: Text("Facebook"),

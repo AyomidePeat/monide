@@ -16,20 +16,22 @@ class MoneyTrendsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
-      margin:  EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
+      margin:  EdgeInsets.all(5),
         width: double.infinity,
         height: 90,
+       
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 32, 68, 97),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CircleAvatar(radius: 50,
+            CircleAvatar(radius: 40,
               backgroundImage: NetworkImage(image)),
             SizedBox(width: 200,
               child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     title, overflow: TextOverflow.ellipsis,

@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:road_mechanic/constants/bank_details.dart';
 import 'package:road_mechanic/constants/colors.dart';
 import 'package:road_mechanic/constants/screens.dart';
+import 'package:road_mechanic/screens/found_atm.dart';
 import 'package:road_mechanic/screens/login_screen.dart';
 import 'package:road_mechanic/services/map.api.dart';
 import 'package:road_mechanic/widgets/custom_container.dart';
 
 import '../widgets/menu.dart';
 
-class HomeScreen extends StatefulWidget {
+final atmLocationProvider = Provider((ref) => mapApiProvider);
+
+class HomeScreen extends ConsumerStatefulWidget {
   final String location;
   const HomeScreen({super.key, required this.location});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HomeScreenConsumerState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   var now = DateTime.now();
-  String _getGreeting(int hour) {
-    if (hour < 12) {
-      return 'Good Morning';
-    } else if (hour < 17) {
-      return 'Good Afternoon';
-    } else {
-      return 'Good Evening';
-    }
-  }
+  // String _getGreeting(int hour) {
+  //   if (hour < 12) {
+  //     return 'Good Morning';
+  //   } else if (hour < 17) {
+  //     return 'Good Afternoon';
+  //   } else {
+  //     return 'Good Evening';
+  //   }
+  // }
 
   List images = [
     'images/loading.png',
@@ -44,10 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
     'Contact A Bank',
     'Refer a friend'
   ];
+  var nearestAtm;
   @override
   Widget build(BuildContext context) {
+    final atmLocationRef = ref.watch(mapApiProvider);
     final size = MediaQuery.of(context).size;
-    var greeting = _getGreeting(now.hour);
+   // var greeting = _getGreeting(now.hour);
     return Scaffold(
       backgroundColor: deepBlue,
       appBar: AppBar(
@@ -59,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MenuWidget(),
-              Text('$greeting John Doe', style: TextStyle(fontSize: 13)),
+              Text('Hello John Doe', style: TextStyle(fontSize: 13)),
               Container(
-             padding: EdgeInsets.only(right:5),
+                  padding: EdgeInsets.only(right: 5),
                   height: 30,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 32, 68, 97),
@@ -78,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Text(
                         widget.location,
+                        overflow: TextOverflow.fade,
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       )
                     ],
@@ -142,13 +151,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 20,
+                                              fontSize: 18,
                                             ))),
                                     SizedBox(
                                         height: 30,
                                         width: 100,
                                         child: CustomButton(
-                                            text: 'Find ATM', onPressed: () {}))
+                                            text: 'Find ATM',
+                                            onPressed: () async {
+                                              Position position =
+                                                  await Geolocator
+                                                      .getCurrentPosition(
+                                                          desiredAccuracy:
+                                                              LocationAccuracy
+                                                                  .high);
+                                              final nearByAtm =
+                                                  await atmLocationRef
+                                                      .findNearestAtm(
+                                                          position.latitude,
+                                                          position.longitude, bankLogos);
+                                              setState(() {
+                                                nearestAtm = nearByAtm;
+                                              });
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FoundATMScreen(
+                                                              nearbyAtm:
+                                                                  nearestAtm)));
+                                            }))
                                   ],
                                 ),
                               ],

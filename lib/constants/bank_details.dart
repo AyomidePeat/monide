@@ -56,7 +56,7 @@ List<String> bankLogos = [
   zenithBank
 ];
 
-List bankNames = [
+List  bankNames = [
   'Access Bank',
   'Citi Bank',
   'FCMB',
@@ -69,7 +69,7 @@ List bankNames = [
   'Polaris Bank',
   'Providus Bank',
   'Stanbic Bank',
-  'Standard Chartered Bank',
+  'Standard Chartered',
   'Sterling Bank',
   'UBA',
   'Union Bank',
@@ -77,6 +77,27 @@ List bankNames = [
   'ZenithBank'
 ];
 
+Map<String, String> bankNametoImage = {
+  'Access Bank': accessBank,
+  'citiBank': citiBank,
+  'First City Monument Bank': fcmb,
+  'Fidelity Bank': fidelityBank,
+  'First Bank': firstBank,
+  'Globus Bank': globusBank,
+  'GTB': gtBank,
+  'Heritage Bank': heritageBank,
+  'Keystone Bank': keystoneBank,
+  'Polaris Bank': polarisBank,
+  'Providus Bank': providusBank,
+  'Stanbic IBTC': stanbicBank,
+  'Standard CharteredBank': standardCharteredBank,
+  'Sterling Bank': sterlingBank,
+  'UBA': uba,
+  'Union Bank': unionBank,
+  'Wema Bank': wemaBank,
+  'Zenith Bank': zenithBank,
+  'Skye Bank': polarisBank,
+};
 List<Map> bankContact = [
   {
     'name': 'Access Bank Plc',

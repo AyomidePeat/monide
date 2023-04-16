@@ -24,6 +24,18 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
     final moneyTrendsRef = ref.watch(moneyNewsProvider);
     return Scaffold(
         backgroundColor: deepBlue,
+         appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            title: const Text(
+              'Money Trends for You',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15),
+            )),
         body: RefreshIndicator(
           onRefresh: () => ref.refresh(moneyNewsProvider.future),
           child: moneyTrendsRef.when(data: (data) {

@@ -2,42 +2,80 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:road_mechanic/model/nearest_atm_model.dart';
+
+import '../constants/bank_details.dart';
 
 final mapApiProvider = Provider<BingsMapApi>((ref) => BingsMapApi());
 
 //Ahvb0AUgVX1oJcPT8jLvclhoFr_c6eY87PY2CxpdPEVcYm9hYxCmJYzCjJJcC85b
 
 class BingsMapApi {
-  Future getLocation(latitude, longitude) async {
-    final String baseUrl = 'https://dev.virtualearth.net/REST/v1/Locations/';
-    final String apiKey =
-        'Ahvb0AUgVX1oJcPT8jLvclhoFr_c6eY87PY2CxpdPEVcYm9hYxCmJYzCjJJcC85b'; // Replace with your Bing Maps API key
-    // Replace with the longitude value
-    final Uri uri = Uri.parse('$baseUrl$latitude,$longitude?key=$apiKey');
+  // final String apiKey =
+  //     'Ahvb0AUgVX1oJcPT8jLvclhoFr_c6eY87PY2CxpdPEVcYm9hYxCmJYzCjJJcC85b'; // Replace with your Bing Maps API key
 
-    final response = await http.get(uri);
-   
-      // Parse the response to extract the address information
-      // The response is in JSON format, so you can use a JSON decoding library like 'dart:convert'
-      final Map<String, dynamic> data = json.decode(response.body);
-      final address = data['resourceSets'][0]['resources'][0]['address'];
+  Future<String> getLocation(double latitude, double longitude) async {
+    String addressString = '';
+    try {
+      String apiKey = 'pk.b14dade08dd88dd219fe1653cf88459c';
+      String endpoint =
+          'https://us1.locationiq.com/v1/reverse.php?key=$apiKey&lat=$latitude&lon=$longitude&format=json';
+      final response = await http.get(Uri.parse(endpoint));
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        String street = jsonData['address']['road'] ?? '';
+        String city = jsonData['address']['city'] ?? '';
+        String state = jsonData['address']['state'] ?? '';
+        String country = jsonData['address']['country'] ?? '';
+        String postalCode = jsonData['address']['postcode'] ?? '';
 
-      // Extract the relevant address components
-      final street = address['addressLine']??"";
-      final city = address['locality'];
-      final state = address['adminDistrict'];
-      final country = address['countryRegion'];
+        addressString = '$street $city, $state';
+      } else {
+        print('Failed to reverse geocode. Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Failed to reverse geocode. Exception: $e');
+    }
+    return addressString;
+  }
 
-      // Print or use the extracted address information as needed
-      print('Street: $street');
-      print('City: $city');
-      print('State: $state');
-      print('Country: $country');
-      var location = '$street $city, $state';
-      return location;
-    // } else {
-    //   print(
-    //       'Failed to retrieve address information. Status code: ${response.statusCode}');
-     }
-  
+  Future<List<ATM>> findNearestAtm(double latitude, double longitude, List<String> imageUrls) async {
+    List<ATM> banks = [];
+    try {
+      String apiKey = 'pk.b14dade08dd88dd219fe1653cf88459c';
+      String endpoint =
+          'https://us1.locationiq.com/v1/nearby.php?key=$apiKey&lat=$latitude&lon=$longitude&tag=bank&radius=5000&format=json';
+      final response = await http.get(Uri.parse(endpoint));
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        List<Map<String, dynamic>> bankDataList =
+            (jsonData as List).cast<Map<String, dynamic>>();
+        banks = bankDataList
+            .map((bankData) => ATM(
+                  name: bankData['name'] ?? '',
+                  distance: bankData['distance']?.toDouble() ?? 0.0,
+                  address: bankData['address'] != null
+                      ? bankData['address']['road'] ?? ''
+                      : '',
+                  city: bankData['address'] != null
+                      ? bankData['address']['city'] ?? ''
+                      : '',
+                      imageUrl: getBankImage(bankData['name'], imageUrls)
+                ))
+            .toList();
+      } else {
+        print('Failed to fetch nearest banks. Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Failed to fetch nearest banks. Exception: $e');
+    }
+    return banks;
+  }
+
+  String getBankImage(String bankName, List<String> imageUrls) {
+    String? bankImage = bankNametoImage[bankName]??'https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/finance/what-is-atm-717x404.jpg';
+    return bankImage??'';
+  }
+
 }
+//E52jdBOFIaUDBYFqjdZIISmHts9pZqeZ
