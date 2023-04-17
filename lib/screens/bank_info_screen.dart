@@ -37,7 +37,7 @@ class BankInfoScreen extends StatelessWidget {
                 ' ${name.toUpperCase()}', textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 20,  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -47,7 +47,7 @@ class BankInfoScreen extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   decoration: TextDecoration.underline,
-                  fontSize: 15,
+                  fontSize: 15,  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -55,7 +55,7 @@ class BankInfoScreen extends StatelessWidget {
               Text(
                 textAlign: TextAlign.center,
                 address,
-                style: const TextStyle(color: Colors.white, fontSize: 13),
+                style: const TextStyle(color: Colors.white, fontSize: 13,  fontFamily: 'Poppins',),
               ),
               const SizedBox(height: 10),
               const Text(
@@ -64,14 +64,14 @@ class BankInfoScreen extends StatelessWidget {
                   color: Colors.white,
                   decoration: TextDecoration.underline,
                   fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.bold,  fontFamily: 'Poppins',
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 textAlign: TextAlign.center,
                 contact,
-                style: const TextStyle(color: Colors.white, fontSize: 13),
+                style: const TextStyle(color: Colors.white,  fontFamily: 'Poppins', fontSize: 13),
               ),
             ],
           ),

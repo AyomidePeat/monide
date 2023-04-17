@@ -40,7 +40,7 @@ class MoneyTrendsWidget extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold,  fontFamily: 'Poppins',
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -51,7 +51,7 @@ class MoneyTrendsWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.white,  fontFamily: 'Poppins',
                         fontSize: 11,
                       ),
                     ),
@@ -61,7 +61,7 @@ class MoneyTrendsWidget extends StatelessWidget {
                     'Source: $source',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.white,  fontFamily: 'Poppins',
                       fontSize: 10,
                     ),
                   ),

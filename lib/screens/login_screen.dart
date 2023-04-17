@@ -53,7 +53,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
-                        fontFamily: "Rubik",
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold),
                   ),
               Padding(

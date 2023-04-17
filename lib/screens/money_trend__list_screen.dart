@@ -41,12 +41,18 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
             elevation: 0.0,
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: const Text(
-              'Money Trends for You',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
+            title: Row(
+              children: [IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
+                const Text(
+                  'Money Trends for You',
+                  style: TextStyle(
+                      color: Colors.white,  fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+              ],
             )),
         body: RefreshIndicator(
           onRefresh: () => ref.refresh(moneyNewsProvider.future),

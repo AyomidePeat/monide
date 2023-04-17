@@ -55,7 +55,9 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final atmLocationRef = ref.watch(mapApiProvider);
     final size = MediaQuery.of(context).size;
-   // var greeting = _getGreeting(now.hour);
+    // var greeting = _getGreeting(now.hour);
+    print('width:${size.width}');
+    print('height ${size.height}');
     return Scaffold(
       backgroundColor: deepBlue,
       appBar: AppBar(
@@ -87,7 +89,11 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       Text(
                         widget.location,
                         overflow: TextOverflow.fade,
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                        ),
                       )
                     ],
                   )),
@@ -108,6 +114,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     hintText: 'Search for ATM',
                     hintStyle: TextStyle(
                       color: Colors.grey,
+                      fontFamily: 'Poppins',
                     ),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -149,6 +156,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                                             'Find out if ATMs around you are working',
                                             overflow: TextOverflow.fade,
                                             style: TextStyle(
+                                              fontFamily: 'Poppins',
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
@@ -169,7 +177,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                                                   await atmLocationRef
                                                       .findNearestAtm(
                                                           position.latitude,
-                                                          position.longitude, bankLogos);
+                                                          position.longitude,
+                                                          bankLogos);
                                               setState(() {
                                                 nearestAtm = nearByAtm;
                                               });
@@ -191,7 +200,11 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   Positioned(
-                      left: size.width * 0.40,
+                      left: size.width > 393
+                          ? size.width * 0.70
+                          : size.width > 925
+                              ? size.width * 0.80
+                              : size.width * 0.4,
                       height: 170,
                       bottom: 10,
                       child: Align(
@@ -213,12 +226,11 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                 constraints: BoxConstraints(maxHeight: size.height * 0.35),
                 child: GridView.builder(
                     physics: const BouncingScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
-                      mainAxisExtent: 115,
+                      mainAxisExtent: size.height > 830 ? 170 : 115,
                     ),
                     itemCount: 6,
                     itemBuilder: (BuildContext context, int index) {
@@ -247,12 +259,13 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       },
                       child: const Text("See all",
                           style: TextStyle(
+                              fontFamily: 'Poppins',
                               color: Color.fromARGB(255, 29, 78, 117),
                               fontWeight: FontWeight.bold))),
                 ],
               ),
-              Image.network(
-                  'https://www.ubagroup.com/wp-content/uploads/2018/09/UBA-logo-6.gif')
+              // Image.network(
+              //     'https://www.ubagroup.com/wp-content/uploads/2018/09/UBA-logo-6.gif')
             ],
           ),
         ),

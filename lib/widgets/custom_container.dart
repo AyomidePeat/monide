@@ -41,7 +41,7 @@ class CustomContainer extends StatelessWidget {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.fade,
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold,  fontFamily: 'Poppins',
                       color: Colors.white,
                     )),
               ],

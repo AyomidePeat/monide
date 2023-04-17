@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:road_mechanic/screens/login_screen.dart';
 import 'package:road_mechanic/screens/home_screen.dart';
 import 'package:road_mechanic/screens/money_trend__list_screen.dart';
 
-void main() {
+Future  main() async {
+   await dotenv.load(fileName: ".env");
   runApp(ProviderScope(child: const MyApp()));
 }
 

@@ -137,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         TextButton(
                             onPressed: () {},
                             child: const Text("Do you have an account?",
-                                style: TextStyle(color: Colors.white))),
+                                style: TextStyle(  fontFamily: 'Poppins',color: Colors.white))),
                         TextButton(
                             onPressed: () {},
                             child: const Text("Login",

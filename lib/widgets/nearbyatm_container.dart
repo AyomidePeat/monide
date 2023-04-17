@@ -35,7 +35,7 @@ class NearbyAtmContainer extends StatelessWidget {
                   name,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.white,  fontFamily: 'Poppins',
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
@@ -45,7 +45,7 @@ class NearbyAtmContainer extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.white,  fontFamily: 'Poppins',
                     fontSize: 12,
                   ),
             ),
@@ -53,7 +53,7 @@ class NearbyAtmContainer extends StatelessWidget {
                   '$distance meters',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: const TextStyle(  fontFamily: 'Poppins',
                     color: Colors.white,
                     fontSize: 12,
                   ),
