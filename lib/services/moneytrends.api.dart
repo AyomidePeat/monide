@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:road_mechanic/model/money_trends_model.dart';
 import 'package:http/http.dart' as http;
@@ -9,10 +8,9 @@ final moneyApiProvider = Provider<MoneyTrendsApi>((ref) => MoneyTrendsApi());
 
 class MoneyTrendsApi {
   Future<List<MoneyTrends>> getMoneyTrends() async {
-   
- 
     try {
-      String apiKey = dotenv.env['API_KEY'] ?? ''; ;
+      String apiKey = dotenv.env['NEWS_API_KEY'] ?? '';
+      
       String endpoint =
           'https://gnews.io/api/v4/top-headlines?category=business&lang=en&token=$apiKey';
 

@@ -1,23 +1,20 @@
 import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:road_mechanic/model/nearest_atm_model.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../constants/bank_details.dart';
 
 final mapApiProvider = Provider<BingsMapApi>((ref) => BingsMapApi());
 
-//Ahvb0AUgVX1oJcPT8jLvclhoFr_c6eY87PY2CxpdPEVcYm9hYxCmJYzCjJJcC85b
+
 
 class BingsMapApi {
-  // final String apiKey =
-  //     'Ahvb0AUgVX1oJcPT8jLvclhoFr_c6eY87PY2CxpdPEVcYm9hYxCmJYzCjJJcC85b'; // Replace with your Bing Maps API key
-
+ 
   Future<String> getLocation(double latitude, double longitude) async {
     String addressString = '';
     try {
-      String apiKey = 'pk.b14dade08dd88dd219fe1653cf88459c';
+       String apiKey = dotenv.env['MAP_API_KEY'] ?? '';
       String endpoint =
           'https://us1.locationiq.com/v1/reverse.php?key=$apiKey&lat=$latitude&lon=$longitude&format=json';
       final response = await http.get(Uri.parse(endpoint));
