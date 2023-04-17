@@ -8,28 +8,29 @@ final moneyApiProvider = Provider<MoneyTrendsApi>((ref) => MoneyTrendsApi());
 
 class MoneyTrendsApi {
   Future<List<MoneyTrends>> getMoneyTrends() async {
-   
+  
     try {
-      final response = await http.get(Uri.parse(
-          'https://newsapi.org/v2/everything?q=money&apiKey=dc50e9af04af41129611fbc31b554867'));
-      final jsonData = jsonDecode(response.body);
-      if (jsonData['status'] == "ok") {
-        final List<MoneyTrends> trendResults = [];
-        if (jsonData['articles'] != null) {
-          for (final item in jsonData['articles']!) {
-            final trendResult = MoneyTrends.fromJson(item);
-            trendResults.add(trendResult);
-          }
-        }
-        
-        return trendResults;
+      String apiKey = '15858879426a9792027dbac4288572f1'; // Replace with your GNews API key
+      String endpoint =
+          'https://gnews.io/api/v4/top-headlines?category=business&lang=en&token=$apiKey';
+
+      
+      final response = await http.get(Uri.parse(endpoint));
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        List<Map<String, dynamic>> newsDataList =
+            (jsonData['articles'] as List).cast<Map<String, dynamic>>();
+        List<MoneyTrends> newsList = newsDataList
+            .map((newsData) => MoneyTrends.fromJson(newsData))
+            .toList();
+        return newsList;
       } else {
-        throw Exception(
-            'Failed to load trendsStatus code: ${response.statusCode}');
+        print('Failed to fetch news. Error: ${response.statusCode}');
+        return [];
       }
     } catch (e) {
-      debugPrint('Error occurred: $e');
-      throw Exception('Failed to load trends. Error: $e');
+      print('Failed to fetch news. Exception: $e');
+      return [];
     }
   }
 }

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:road_mechanic/constants/colors.dart';
 import 'package:road_mechanic/model/money_trends_model.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:road_mechanic/services/moneytrends.api.dart';
 import 'package:road_mechanic/widgets/money_trend_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final moneyNewsProvider = FutureProvider<List<MoneyTrends>>((ref) async {
   final moneyTrends = ref.watch(moneyApiProvider);
@@ -19,12 +22,21 @@ class MoneyTrendsScreen extends ConsumerStatefulWidget {
 }
 
 class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
+  void _launchURL(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final moneyTrendsRef = ref.watch(moneyNewsProvider);
     return Scaffold(
         backgroundColor: deepBlue,
-         appBar: AppBar(
+        appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             centerTitle: true,
@@ -44,12 +56,18 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                      title: MoneyTrendsWidget(
-                    title: data[index].title,
-                    image: data[index].urlToImage,
-                    description: data[index].description,
-                    author: data[index].author,
-                  ));
+                    title: MoneyTrendsWidget(
+                      title: data[index].title,
+                      image: data[index].image,
+                      description: data[index].description,
+                      source: data[index].source,
+                    ),
+                    onTap: () {
+                      
+                      String newsUrl = data[index].url;
+                      _launchURL(newsUrl);
+                    },
+                  );
                 });
           }, error: (error, _) {
             return Text(error.toString());
@@ -59,5 +77,3 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
         ));
   }
 }
-
-

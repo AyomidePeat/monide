@@ -1,28 +1,26 @@
 class MoneyTrends {
   final String title;
-   final String urlToImage;
-final String author;
+  final String image;
+  final String source;
   final String description;
-  final String content;
+  // Update to Future<String>
+  final String url;
 
-  MoneyTrends(
-      {required this.title,
-      required this.urlToImage,
-     required this.author,
-      required this.description,
-      required this.content
-      }
-      );
+  MoneyTrends({
+    required this.title,
+    required this.image,
+    required this.source,
+    required this.description,
+    required this.url,
+  });
 
   factory MoneyTrends.fromJson(Map<String, dynamic> json) {
-    final moneyTrends = json['moneyTrends'];
-
     return MoneyTrends(
-        title: json['title']??'',
-       urlToImage: json['urlToImage']??'',
-       author: json['author']??' Anonymous',
-      description: json['description,']??'',
-       content: json['content)']??''
-        );
+      title: json['title'] ?? '',
+      image: json['image'] ?? '',
+      source: json['source']['name'] ?? 'Anonymous',
+      description: json['description'] ?? '',
+      url: json['url'] ?? '',
+    );
   }
 }
