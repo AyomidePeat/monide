@@ -10,7 +10,7 @@ class MoneyTrendsApi {
   Future<List<MoneyTrends>> getMoneyTrends() async {
   
     try {
-      String apiKey = '15858879426a9792027dbac4288572f1'; // Replace with your GNews API key
+      String apiKey = '15858879426a9792027dbac4288572f1'; 
       String endpoint =
           'https://gnews.io/api/v4/top-headlines?category=business&lang=en&token=$apiKey';
 
