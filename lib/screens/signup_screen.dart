@@ -218,65 +218,62 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                setState(() {
-                                  googlesignIn = true;
-                                });
-                                var user = await authenticationHandler
-                                    .signInWithGoogle();
-                                setState(() {
-                                  googlesignIn = false;
-                                });
-                                if (user != null) {
-                                   Position position = await Geolocator.getCurrentPosition(
-                            desiredAccuracy:
-                                LocationAccuracy.bestForNavigation);
+                      child: SizedBox(width: size.width/3,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              googlesignIn = true;
+                            });
+                            var user = await authenticationHandler
+                                .signInWithGoogle();
+                            setState(() {
+                              googlesignIn = false;
+                            });
+                            if (user != null) {
+                               Position position = await Geolocator.getCurrentPosition(
+                        desiredAccuracy:
+                            LocationAccuracy.bestForNavigation);
                         final bingsMapApi = locationRef;
                         final defLocation = await bingsMapApi.getLocation(
-                            position.latitude, position.longitude);
+                        position.latitude, position.longitude);
 
                         setState(() {
-                          actualLocation = defLocation;
+                      actualLocation = defLocation;
                         });
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeScreen(
-                                                location: actualLocation,
-                                                user: user,
-                                              )));
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  side: const BorderSide(
-                                      color: deepBlue, width: 2),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10))),
-                              child: googlesignIn
-                                  ? const SizedBox(
-                                      height: 20,
-                                      child: AspectRatio(
-                                          aspectRatio: 1 / 1,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: Colors.white,
-                                          )))
-                                  : Row(
-                                      children: [
-                                        Image.asset('images/google_logo.png'),
-                                        const Text("Google"),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                        ],
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen(
+                                            location: actualLocation,
+                                            user: user,
+                                          )));
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              side: const BorderSide(
+                                  color: deepBlue, width: 2),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: googlesignIn
+                              ? const SizedBox(
+                                  height: 20,
+                                  child: AspectRatio(
+                                      aspectRatio: 1 / 1,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      )))
+                              : Row(  mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                  height: 20,
+                                  child: Image.asset('images/google_logo.png')),
+                             const SizedBox(width:7), const Text("Google"),
+                                  ],
+                                ),
+                        ),
                       ),
                     ),
                   ],

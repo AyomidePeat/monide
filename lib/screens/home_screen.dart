@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:road_mechanic/constants/bank_details.dart';
 import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/constants/screens.dart';
 import 'package:road_mechanic/screens/found_atm.dart';
 import 'package:road_mechanic/services/map.api.dart';
 import 'package:road_mechanic/widgets/custom_container.dart';
@@ -20,9 +19,9 @@ final atmLocationProvider = Provider((ref) => mapApiProvider);
 final userNameProvider = Provider((ref) => databaseProvider);
 
 class HomeScreen extends ConsumerStatefulWidget {
-  final String location;
+  final  location;
   final user;
-  const HomeScreen({super.key, required this.location, this.user});
+  const HomeScreen({super.key,  this.location, this.user});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -106,13 +105,25 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                   future: userDetailsRef.getUserDetails(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Hello');
+                      return const Text('Hello',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ));
                     } else {
                       if (snapshot.hasData && snapshot.data != null) {
                         // User details retrieved successfully
                         UserDetails userDetails = snapshot.data!;
                         String username = userDetails.name; // Get the username
-                        return Text('Hello $username');
+                        return Text('Hello $username',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ));
                       } else {
                         // User details not found
                         return const Text('User details not found');

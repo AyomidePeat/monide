@@ -200,52 +200,52 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 7),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                     
-                      child: ElevatedButton(
-                        onPressed: () async {
-                       setState(() {
-                      googlesignIn = true;
-                    });
-                    var user =  await authenticationHandler.signInWithGoogle();
+                child: SizedBox(width: size.width/3,
+                  child: ElevatedButton(
+                    onPressed: () async {
                       setState(() {
-                      googlesignIn = false;
-                    });
-                     if (user != null){
-                                              Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreen(
-                                    location: actualLocation,user: user,
-                                  )));
-                     }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            side: const BorderSide(color: deepBlue, width: 2),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: googlesignIn? const SizedBox(
-                          height: 20,
-                          child: AspectRatio(
-                              aspectRatio: 1 / 1,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ))): Row(
-                                children: [
-                                  Image.asset('images/google_logo.png'),
-                                  const Text("Google"),
-                                ],
-                              ),
-                      ),
-                    ),
-                    const SizedBox(width: 7),
-                  ],
+                        googlesignIn = true;
+                      });
+                      var user = await authenticationHandler.signInWithGoogle();
+                      setState(() {
+                        googlesignIn = false;
+                      });
+                      if (user != null) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen(
+                                      location: actualLocation,
+                                      user: user,
+                                    )));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        side: const BorderSide(color: deepBlue, width: 2),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: googlesignIn
+                        ? const SizedBox(
+                            height: 20,
+                            child: AspectRatio(
+                                aspectRatio: 1 / 1,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                )))
+                        : Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                  height: 20,
+                                  child: Image.asset('images/google_logo.png')),
+                             const SizedBox(width:7),
+                              const Text("Google"),
+                            ],
+                          ),
+                  ),
                 ),
               ),
             ],
