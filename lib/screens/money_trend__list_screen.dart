@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:road_mechanic/constants/colors.dart';
 import 'package:road_mechanic/model/money_trends_model.dart';
-
-import 'package:http/http.dart' as http;
 import 'package:road_mechanic/services/moneytrends.api.dart';
 import 'package:road_mechanic/widgets/money_trend_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -78,7 +76,7 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
           }, error: (error, _) {
             return Text(error.toString());
           }, loading: () {
-            return Center(child: const CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }),
         ));
   }

@@ -5,17 +5,24 @@ import 'package:road_mechanic/constants/bank_details.dart';
 import 'package:road_mechanic/constants/colors.dart';
 import 'package:road_mechanic/constants/screens.dart';
 import 'package:road_mechanic/screens/found_atm.dart';
-import 'package:road_mechanic/screens/login_screen.dart';
 import 'package:road_mechanic/services/map.api.dart';
 import 'package:road_mechanic/widgets/custom_container.dart';
-
+import '../model/user_model.dart';
+import '../services/cloud_firestore.dart';
+import '../widgets/custom_button.dart';
 import '../widgets/menu.dart';
+import '../widgets/search_field_widget.dart';
+import 'check_atm_screen.dart';
+import 'contact_bank.dart';
+import 'money_trend__list_screen.dart';
 
 final atmLocationProvider = Provider((ref) => mapApiProvider);
+final userNameProvider = Provider((ref) => databaseProvider);
 
 class HomeScreen extends ConsumerStatefulWidget {
   final String location;
-  const HomeScreen({super.key, required this.location});
+  final user;
+  const HomeScreen({super.key, required this.location, this.user});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -33,6 +40,14 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   //     return 'Good Evening';
   //   }
   // }
+  TextEditingController searchController = TextEditingController();
+  bool isLoading = false;
+  late var user;
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   List images = [
     'images/loading.png',
@@ -51,13 +66,31 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
     'Refer a friend'
   ];
   var nearestAtm;
+
   @override
   Widget build(BuildContext context) {
+    List screens = [
+      CheckAtmScreen(nearestAtm: nearestAtm),
+      const ContactBankScreen(),
+      const MoneyTrendsScreen(),
+      const ContactBankScreen(),
+      const MoneyTrendsScreen(),
+      const ContactBankScreen(),
+    ];
     final atmLocationRef = ref.watch(mapApiProvider);
+    final userDetailsRef = ref.watch(databaseProvider);
     final size = MediaQuery.of(context).size;
+
     // var greeting = _getGreeting(now.hour);
-    print('width:${size.width}');
-    print('height ${size.height}');
+    @override
+    @override
+    void initState() {
+      super.initState();
+      setState(() {
+        user = widget.user;
+      });
+    }
+
     return Scaffold(
       backgroundColor: deepBlue,
       appBar: AppBar(
@@ -69,9 +102,26 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MenuWidget(),
-              Text('Hello John Doe', style: TextStyle(fontSize: 13)),
+              FutureBuilder<UserDetails?>(
+                  future: userDetailsRef.getUserDetails(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Hello');
+                    } else {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        // User details retrieved successfully
+                        UserDetails userDetails = snapshot.data!;
+                        String username = userDetails.name; // Get the username
+                        return Text('Hello $username');
+                      } else {
+                        // User details not found
+                        return const Text('User details not found');
+                      }
+                    }
+                  }),
+              //const Text('Hello John Doe', style: TextStyle(fontSize: 13)),
               Container(
-                  padding: EdgeInsets.only(right: 5),
+                  padding: const EdgeInsets.only(right: 5),
                   height: 30,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 32, 68, 97),
@@ -89,7 +139,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       Text(
                         widget.location,
                         overflow: TextOverflow.fade,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontFamily: 'Poppins',
@@ -101,31 +151,14 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
           ),
           iconTheme: const IconThemeData(color: Colors.white)),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(8),
-                    prefixIcon: Icon(Icons.search, color: Colors.white),
-                    hintText: 'Search for ATM',
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Poppins',
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 32, 68, 97), width: 2),
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(20)))),
-                onSubmitted: (value) {},
-              ),
-              SizedBox(height: 10),
+              SearchFieldWidget(controller: searchController),
+              const SizedBox(height: 10),
               Stack(
                 children: [
                   Container(
@@ -134,12 +167,12 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     color: Colors.transparent,
                     child: Column(
                       children: [
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Container(
                           width: double.infinity,
                           height: 150,
                           decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 32, 68, 97),
+                              color: const Color.fromARGB(255, 32, 68, 97),
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -162,34 +195,47 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                                               fontSize: 18,
                                             ))),
                                     SizedBox(
-                                        height: 30,
-                                        width: 100,
-                                        child: CustomButton(
-                                            text: 'Find ATM',
-                                            onPressed: () async {
-                                              Position position =
-                                                  await Geolocator
-                                                      .getCurrentPosition(
-                                                          desiredAccuracy:
-                                                              LocationAccuracy
-                                                                  .high);
-                                              final nearByAtm =
-                                                  await atmLocationRef
-                                                      .findNearestAtm(
-                                                          position.latitude,
-                                                          position.longitude,
-                                                          bankLogos);
-                                              setState(() {
-                                                nearestAtm = nearByAtm;
-                                              });
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FoundATMScreen(
-                                                              nearbyAtm:
-                                                                  nearestAtm)));
-                                            }))
+                                      height: 30,
+                                      width: 100,
+                                      child: CustomButton(
+                                        child: isLoading
+                                            ? const SizedBox(
+                                                height: 20,
+                                                child: AspectRatio(
+                                                    aspectRatio: 1 / 1,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                      color: Colors.white,
+                                                    )))
+                                            : const Text('Find ATM'),
+                                        onPressed: () async {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                          Position position = await Geolocator
+                                              .getCurrentPosition(
+                                                  desiredAccuracy:
+                                                      LocationAccuracy.high);
+                                          final nearByAtm = await atmLocationRef
+                                              .findNearestAtm(
+                                                  position.latitude,
+                                                  position.longitude,
+                                                  bankLogos);
+                                          setState(() {
+                                            nearestAtm = nearByAtm;
+                                            isLoading = false;
+                                          });
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FoundATMScreen(
+                                                          nearbyAtm:
+                                                              nearestAtm)));
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],

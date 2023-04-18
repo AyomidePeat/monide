@@ -16,8 +16,8 @@ class MoneyTrendsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-        padding: EdgeInsets.all(5),
-        margin: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         width: double.infinity,
         height: 90,
         decoration: BoxDecoration(
@@ -27,9 +27,9 @@ class MoneyTrendsWidget extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(radius: 30, backgroundImage: NetworkImage(image)),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             SizedBox(
-              width: size.width>393? size.width*0.8:size.width*0.6,
+              width: size.width > 393 ? size.width * 0.8 : size.width * 0.6,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +40,8 @@ class MoneyTrendsWidget extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
-                      fontWeight: FontWeight.bold,  fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -51,7 +52,8 @@ class MoneyTrendsWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        color: Colors.white,  fontFamily: 'Poppins',
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
                         fontSize: 11,
                       ),
                     ),
@@ -61,7 +63,8 @@ class MoneyTrendsWidget extends StatelessWidget {
                     'Source: $source',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: Colors.white,  fontFamily: 'Poppins',
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
                       fontSize: 10,
                     ),
                   ),

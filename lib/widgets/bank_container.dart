@@ -33,7 +33,7 @@ class BankContainer extends StatelessWidget {
                           // color: Color.fromARGB(255, 135, 202, 236),
                         ),
                       ),
-                      Text(name, textAlign: TextAlign.center, style: TextStyle(color: Colors.white,  fontFamily: 'Poppins',))
+                      Text(name, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white,  fontFamily: 'Poppins',))
                     ],
                   )))),
     );

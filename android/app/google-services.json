@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "402316714563-kcdj43kefh9sbsff9gbu6g7ejj9jq1rl.apps.googleusercontent.com",
+          "client_id": "402316714563-0ir1ucmu1sn72ksjersmlkvtk016aopr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +27,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "402316714563-kcdj43kefh9sbsff9gbu6g7ejj9jq1rl.apps.googleusercontent.com",
+              "client_id": "402316714563-0ir1ucmu1sn72ksjersmlkvtk016aopr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "402316714563-7j8c19oeahc8a2eme3c5pt2djfj9vuo8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.roadMechanic"
+              }
             }
           ]
         }

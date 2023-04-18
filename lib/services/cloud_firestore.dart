@@ -1,0 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../model/user_model.dart';
+
+
+final databaseProvider = Provider<CloudFirestore>((ref) => CloudFirestore());
+
+FirebaseFirestore cloudFirestore = FirebaseFirestore.instance;
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+class CloudFirestore {
+  static Future uploadUserDetailsToDatabase({required UserDetails user}) async {
+    await cloudFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser?.uid)
+        .set(user.toJson());
+  }
+
+  Future<UserDetails?> getUserDetails() async {
+    DocumentSnapshot snapshot = await cloudFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser?.uid)
+        .get();
+    if (snapshot.exists) {
+      UserDetails user = UserDetails.getModelFromJson(
+        json: snapshot.data() as dynamic,
+      );
+      return user;
+    } else {
+      return null;
+    }
+  }
+}

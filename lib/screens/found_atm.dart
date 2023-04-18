@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:road_mechanic/constants/colors.dart';
-
 import '../model/nearest_atm_model.dart';
 import '../widgets/nearbyatm_container.dart';
 
-class FoundATMScreen extends StatelessWidget {
+
+
+class FoundATMScreen extends ConsumerStatefulWidget {
   final nearbyAtm;
   const FoundATMScreen({super.key, required this.nearbyAtm});
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _FoundATMScreenConsumerState();
+}
+
+class _FoundATMScreenConsumerState extends ConsumerState<FoundATMScreen> {
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: deepBlue,
         appBar: AppBar(
@@ -18,12 +27,15 @@ class FoundATMScreen extends StatelessWidget {
             centerTitle: true,
             automaticallyImplyLeading: false,
             title: Row(
-              children: [IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
+              children: [
+                IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon:
+                        const Icon(Icons.arrow_back_ios, color: Colors.white)),
                 const Text(
                   'Found ATMs',
-                  style: TextStyle(  fontFamily: 'Poppins',
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 15),
@@ -31,10 +43,10 @@ class FoundATMScreen extends StatelessWidget {
               ],
             )),
         body: ListView.builder(
-          itemCount: nearbyAtm.length,
+          itemCount: widget.nearbyAtm.length,
           itemBuilder: (BuildContext context, int index) {
-            ATM atm = nearbyAtm[index];
-            if (nearbyAtm.isNotEmpty) {
+            ATM atm = widget.nearbyAtm[index];
+            if (widget.nearbyAtm.isNotEmpty) {
               return ListTile(
                   title: NearbyAtmContainer(
                 name: atm.name,
@@ -53,7 +65,7 @@ class FoundATMScreen extends StatelessWidget {
             }
           },
 
-          //Text(nearbyAtm)
+      
         ));
   }
 }

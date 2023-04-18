@@ -21,7 +21,7 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MenuWidget(),]),
-                  iconTheme: IconThemeData(color: Colors.black)
+                  iconTheme: const IconThemeData(color: Colors.black)
                   ),
     );
   }
