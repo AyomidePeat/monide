@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:road_mechanic/model/user_model.dart';
@@ -64,56 +65,69 @@ class FirebaseAuthentication {
     try {
       await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
+    
       e.message.toString();
     }
     return output;
   }
 
   Future<UserCredential?> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+    var user;
+    if (kIsWeb) {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
 
-      if (googleSignInAccount != null) {
-        // Obtain the Google Sign-In authentication details
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-
-        // Create a new credential
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-
-        // Sign in to Firebase with the Google credential
+      try {
         final UserCredential userCredential =
-            await firebaseAuth.signInWithCredential(credential);
+            await firebaseAuth.signInWithPopup(authProvider);
 
-        return userCredential;
+        user = userCredential.user;
+      } catch (e) {
+        print(e);
       }
-    } on FirebaseAuthException catch (e) {
-      print('Failed to sign in with Google: $e');
+    } else {
+      try {
+        final GoogleSignInAccount? googleSignInAccount =
+            await googleSignIn.signIn();
+
+        if (googleSignInAccount != null) {
+          // Obtain the Google Sign-In authentication details
+          final GoogleSignInAuthentication googleSignInAuthentication =
+              await googleSignInAccount.authentication;
+
+          // Create a new credential
+          final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken,
+          );
+
+          // Sign in to Firebase with the Google credential
+          final UserCredential userCredential =
+              await firebaseAuth.signInWithCredential(credential);
+
+          return userCredential;
+        }
+      } on FirebaseAuthException catch (e) {
+        print('Failed to sign in with Google: $e');
+      }
+      return null;
     }
-    return null;
   }
 
   static Future<FirebaseApp> initializeFirebase({
-  required BuildContext context,
-}) async {
-  FirebaseApp firebaseApp = await Firebase.initializeApp();
+    required BuildContext context,
+  }) async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-  User? user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
-  if (user != null) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(
-          user: user
+    if (user != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(user: user),
         ),
-      ),
-    );
-  }
+      );
+    }
 
-  return firebaseApp;
-}
+    return firebaseApp;
+  }
 }

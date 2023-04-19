@@ -148,6 +148,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                     SizedBox(
                         width: double.infinity,
                         child: CustomButton(
+                          color: deepBlue,
                             child: isLoading
                                 ? const SizedBox(
                                     height: 20,

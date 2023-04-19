@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:road_mechanic/constants/colors.dart';
+import 'package:road_mechanic/screens/upload_atm_status.dart';
 import '../model/nearest_atm_model.dart';
 import '../widgets/nearbyatm_container.dart';
-
-
 
 class FoundATMScreen extends ConsumerStatefulWidget {
   final nearbyAtm;
@@ -18,9 +17,8 @@ class FoundATMScreen extends ConsumerStatefulWidget {
 class _FoundATMScreenConsumerState extends ConsumerState<FoundATMScreen> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        backgroundColor: deepBlue,
+       // backgroundColor: deepBlue,
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -48,13 +46,22 @@ class _FoundATMScreenConsumerState extends ConsumerState<FoundATMScreen> {
             ATM atm = widget.nearbyAtm[index];
             if (widget.nearbyAtm.isNotEmpty) {
               return ListTile(
-                  title: NearbyAtmContainer(
-                name: atm.name,
-                distance: atm.distance.toString(),
-                address: atm.address,
-                city: atm.city,
-                image: atm.imageUrl,
-              ));
+                title: NearbyAtmContainer(
+                  name: atm.name,
+                  distance: atm.distance.toString(),
+                  address: atm.address,
+                  city: atm.city,
+                  image: atm.imageUrl,
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UploadStatusScreen(nearestAtm: atm),
+                      ));
+                },
+              );
             } else {
               return const Center(
                   child: Text('No ATM found near you',
@@ -64,8 +71,6 @@ class _FoundATMScreenConsumerState extends ConsumerState<FoundATMScreen> {
                           fontWeight: FontWeight.bold)));
             }
           },
-
-      
         ));
   }
 }

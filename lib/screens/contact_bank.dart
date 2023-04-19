@@ -9,7 +9,7 @@ class ContactBankScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: deepBlue,
+      //backgroundColor: deepBlue,
       appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: false,

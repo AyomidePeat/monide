@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:road_mechanic/constants/bank_details.dart';
 import 'package:road_mechanic/constants/colors.dart';
 import 'package:road_mechanic/screens/found_atm.dart';
+import 'package:road_mechanic/screens/support_screen.dart';
+import 'package:road_mechanic/screens/upload_atm_status.dart';
 import 'package:road_mechanic/services/map.api.dart';
 import 'package:road_mechanic/widgets/custom_container.dart';
 import '../model/user_model.dart';
@@ -19,9 +21,10 @@ final atmLocationProvider = Provider((ref) => mapApiProvider);
 final userNameProvider = Provider((ref) => databaseProvider);
 
 class HomeScreen extends ConsumerStatefulWidget {
-  final  location;
+  final location;
   final user;
-  const HomeScreen({super.key,  this.location, this.user});
+  final nearbyAtm;
+  const HomeScreen({super.key, this.location, this.user, this.nearbyAtm});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -30,15 +33,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   var now = DateTime.now();
-  // String _getGreeting(int hour) {
-  //   if (hour < 12) {
-  //     return 'Good Morning';
-  //   } else if (hour < 17) {
-  //     return 'Good Afternoon';
-  //   } else {
-  //     return 'Good Evening';
-  //   }
-  // }
+
   TextEditingController searchController = TextEditingController();
   bool isLoading = false;
   late var user;
@@ -64,32 +59,41 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
     'Contact A Bank',
     'Refer a friend'
   ];
-  var nearestAtm;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      user = widget.user;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List screens = [
-      CheckAtmScreen(nearestAtm: nearestAtm),
-      const ContactBankScreen(),
-      const MoneyTrendsScreen(),
-      const ContactBankScreen(),
-      const MoneyTrendsScreen(),
-      const ContactBankScreen(),
-    ];
+    var nearestAtm;
     final atmLocationRef = ref.watch(mapApiProvider);
     final userDetailsRef = ref.watch(databaseProvider);
     final size = MediaQuery.of(context).size;
 
-    // var greeting = _getGreeting(now.hour);
-    @override
-    @override
-    void initState() {
-      super.initState();
+    positionGetter() async {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      final nearByAtm = await atmLocationRef.findNearestAtm(
+          position.latitude, position.longitude, bankLogos);
       setState(() {
-        user = widget.user;
+        nearestAtm = nearByAtm;
+        isLoading = false;
       });
     }
 
+    List screens = [
+      CheckAtmScreen(nearestAtm: widget.nearbyAtm),
+      FoundATMScreen(nearbyAtm: widget.nearbyAtm),
+      const SupportScreen(),
+      const MoneyTrendsScreen(),
+      const MoneyTrendsScreen(),
+      const ContactBankScreen(),
+    ];
     return Scaffold(
       backgroundColor: deepBlue,
       appBar: AppBar(
@@ -118,7 +122,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                         UserDetails userDetails = snapshot.data!;
                         String username = userDetails.name; // Get the username
                         return Text('Hello $username',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -209,6 +213,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                                       height: 30,
                                       width: 100,
                                       child: CustomButton(
+                                        color: deepBlue,
                                         child: isLoading
                                             ? const SizedBox(
                                                 height: 20,
@@ -220,23 +225,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                                                       color: Colors.white,
                                                     )))
                                             : const Text('Find ATM'),
-                                        onPressed: () async {
-                                          setState(() {
-                                            isLoading = true;
-                                          });
-                                          Position position = await Geolocator
-                                              .getCurrentPosition(
-                                                  desiredAccuracy:
-                                                      LocationAccuracy.high);
-                                          final nearByAtm = await atmLocationRef
-                                              .findNearestAtm(
-                                                  position.latitude,
-                                                  position.longitude,
-                                                  bankLogos);
-                                          setState(() {
-                                            nearestAtm = nearByAtm;
-                                            isLoading = false;
-                                          });
+                                        onPressed: () {
+                                          positionGetter();
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -280,7 +270,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: size.height * 0.35),
+                constraints: BoxConstraints(maxHeight: size.height),
                 child: GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -298,31 +288,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       );
                     }),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Near you',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold)),
-                  TextButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => ));
-                      },
-                      child: const Text("See all",
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Color.fromARGB(255, 29, 78, 117),
-                              fontWeight: FontWeight.bold))),
-                ],
-              ),
-              // Image.network(
-              //     'https://www.ubagroup.com/wp-content/uploads/2018/09/UBA-logo-6.gif')
             ],
           ),
         ),

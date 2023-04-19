@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:road_mechanic/constants/bank_details.dart';
 import 'package:road_mechanic/screens/home_screen.dart';
 import 'package:road_mechanic/screens/signup_screen.dart';
 import 'package:road_mechanic/services/firebase_auth.dart';
@@ -23,6 +24,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
   // GoogleSignIn googleSignIn = GoogleSignIn();
   bool isLoading = false;
   bool googlesignIn = false;
+  var nearestAtm;
   var actualLocation = 'Unknown';
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -118,7 +120,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                 child: SizedBox(
                   height: 35,
                   width: double.infinity,
-                  child: CustomButton(
+                  child: CustomButton(color: deepBlue,
                     child: isLoading
                         ? const SizedBox(
                             height: 20,
@@ -144,16 +146,18 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                         final bingsMapApi = locationRef;
                         final defLocation = await bingsMapApi.getLocation(
                             position.latitude, position.longitude);
-
+                        final nearByAtm = await locationRef.findNearestAtm(
+                            position.latitude, position.longitude, bankLogos);
                         setState(() {
                           actualLocation = defLocation;
+                          nearestAtm = nearByAtm;
                         });
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => HomeScreen(
-                                      location: actualLocation,
-                                    )));
+                                    location: actualLocation,
+                                    nearbyAtm: nearByAtm)));
                       } else {
                         setState(() {
                           isLoading = false;
@@ -200,7 +204,8 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 7),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: SizedBox(width: size.width/3,
+                child: SizedBox(
+                  width: size.width / 3,
                   child: ElevatedButton(
                     onPressed: () async {
                       setState(() {
@@ -236,12 +241,12 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                                   color: Colors.white,
                                 )))
                         : Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
                                   height: 20,
                                   child: Image.asset('images/google_logo.png')),
-                             const SizedBox(width:7),
+                              const SizedBox(width: 7),
                               const Text("Google"),
                             ],
                           ),
