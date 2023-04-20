@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,6 +7,7 @@ import 'package:monide/screens/home_screen.dart';
 import 'package:monide/screens/signup_screen.dart';
 import 'package:monide/services/firebase_auth.dart';
 import 'package:monide/services/map.api.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../constants/colors.dart';
 import '../widgets/custom_button.dart';
 
@@ -141,7 +143,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                           email: emailController.text,
                           password: passwordController.text);
                       if (output == 'Success') {
-                        Position position = await Geolocator.getCurrentPosition(
+                        if (kIsWeb){Position position = await Geolocator.getCurrentPosition(
                             desiredAccuracy:
                                 LocationAccuracy.bestForNavigation);
                         final bingsMapApi = locationRef;
@@ -153,12 +155,40 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                           actualLocation = defLocation;
                           nearestAtm = nearByAtm;
                         });
-                        Navigator.push(
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen(
+                                    location: actualLocation,
+                                    nearbyAtm: nearByAtm)));}else{
+                        var result = await Permission.location.request();
+if (result.isGranted) {
+ Position position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy:
+                                LocationAccuracy.bestForNavigation);
+                        final bingsMapApi = locationRef;
+                        final defLocation = await bingsMapApi.getLocation(
+                            position.latitude, position.longitude);
+                        final nearByAtm = await locationRef.findNearestAtm(
+                            position.latitude, position.longitude, bankLogos);
+                        setState(() {
+                          actualLocation = defLocation;
+                          nearestAtm = nearByAtm;
+                        });
+                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => HomeScreen(
                                     location: actualLocation,
                                     nearbyAtm: nearByAtm)));
+} else if (result.isDenied) {
+     openAppSettings();
+} else if (result.isPermanentlyDenied) {
+      openAppSettings();
+}
+                      }
+                        
+                       
                       } else {
                         setState(() {
                           isLoading = false;

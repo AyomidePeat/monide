@@ -9,10 +9,10 @@ import '../services/map.api.dart';
 final atmLocationProvider = Provider((ref) => mapApiProvider);
 
 class SearchFieldWidget extends ConsumerStatefulWidget {
-   bool isLoading;
+ 
   final TextEditingController controller;
 
-   SearchFieldWidget({required this.controller, required this.isLoading, super.key});
+   SearchFieldWidget({required this.controller, super.key});
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _SearchFieldWidgetState();
@@ -27,12 +27,12 @@ class _SearchFieldWidgetState extends ConsumerState<SearchFieldWidget> {
     searchForAtms(String query) async {
       setState(() {
         query = widget.controller.text;
-        widget.isLoading = true;
+        
       });
       final foundAtm = await atmLocationRef.searchForAtm(query, bankLogos);
       setState(() {
         searchResults = foundAtm;
-        widget.isLoading = false;
+       
       });
       Navigator.push(
           context,

@@ -49,6 +49,7 @@ class _SupportScreenState extends State<SupportScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset('images/contact'),
             const Text(
               'Do you need help? Or do have something to tell us?',
               textAlign: TextAlign.center,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:monide/constants/colors.dart';
 import 'package:monide/model/nearest_atm_model.dart';
 import 'package:monide/screens/atm_status_screen.dart';
 import 'package:monide/services/map.api.dart';
 import 'package:monide/widgets/search_field_widget.dart';
 import '../widgets/nearbyatm_container.dart';
-import 'home_screen.dart';
 import 'dart:math' show pi;
 
 final atmLocationProvider = FutureProvider((ref) => mapApiProvider);
@@ -52,7 +52,7 @@ class _CheckAtmScreenState extends ConsumerState<CheckAtmScreen>
     return SafeArea(
       top: false,
       child: Scaffold(
-          //backgroundColor: deepBlue,
+          backgroundColor: deepBlue,
           appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0.0,
@@ -84,11 +84,9 @@ class _CheckAtmScreenState extends ConsumerState<CheckAtmScreen>
                   children: [
                     SearchFieldWidget(
                       controller: searchController,
-                      isLoading: isSearchLoding,
+                    
                     ),
-                    if (isSearchLoding)
-                      searchAnimation(
-                          controller: _controller, animation: _animation),
+                  
                   ],
                 ),
               ),
