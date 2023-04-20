@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:road_mechanic/constants/bank_details.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/widgets/bank_container.dart';
+import 'package:monide/constants/bank_details.dart';
+import 'package:monide/widgets/bank_container.dart';
+
+import '../constants/colors.dart';
 
 class ContactBankScreen extends StatelessWidget {
   const ContactBankScreen({super.key});
@@ -9,7 +10,7 @@ class ContactBankScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: deepBlue,
+      backgroundColor: deepBlue,
       appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: false,

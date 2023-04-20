@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/model/atm_status_model.dart';
-import 'package:road_mechanic/widgets/custom_button.dart';
+import 'package:monide/constants/colors.dart';
+import 'package:monide/model/atm_status_model.dart';
+import 'package:monide/widgets/custom_button.dart';
 
 import '../services/cloud_firestore.dart';
 
@@ -278,7 +278,7 @@ class _UploadStatusScreenConsumerState
                                 )))
                         : Text(
                             action,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontFamily: 'Poppins',
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

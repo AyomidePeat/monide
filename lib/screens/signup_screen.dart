@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/screens/login_screen.dart';
-import 'package:road_mechanic/services/map.api.dart';
+import 'package:monide/constants/colors.dart';
+import 'package:monide/screens/login_screen.dart';
+import 'package:monide/services/map.api.dart';
 import '../services/firebase_auth.dart';
 import '../widgets/custom_button.dart';
 import 'home_screen.dart';
 
 final locationProvider = Provider((ref) => mapApiProvider);
+
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-   ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenConsumerState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SignUpScreenConsumerState();
 }
 
 class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
@@ -37,7 +39,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-     final locationRef = ref.watch(mapApiProvider);
+    final locationRef = ref.watch(mapApiProvider);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: blackColor,
@@ -148,7 +150,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                     SizedBox(
                         width: double.infinity,
                         child: CustomButton(
-                          color: deepBlue,
+                            color: deepBlue,
                             child: isLoading
                                 ? const SizedBox(
                                     height: 20,
@@ -219,28 +221,30 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: SizedBox(width: size.width/3,
+                      child: SizedBox(
+                        width: size.width / 3,
                         child: ElevatedButton(
                           onPressed: () async {
                             setState(() {
                               googlesignIn = true;
                             });
-                            var user = await authenticationHandler
-                                .signInWithGoogle();
+                            var user =
+                                await authenticationHandler.signInWithGoogle();
                             setState(() {
                               googlesignIn = false;
                             });
                             if (user != null) {
-                               Position position = await Geolocator.getCurrentPosition(
-                        desiredAccuracy:
-                            LocationAccuracy.bestForNavigation);
-                        final bingsMapApi = locationRef;
-                        final defLocation = await bingsMapApi.getLocation(
-                        position.latitude, position.longitude);
+                              Position position =
+                                  await Geolocator.getCurrentPosition(
+                                      desiredAccuracy:
+                                          LocationAccuracy.bestForNavigation);
+                              final bingsMapApi = locationRef;
+                              final defLocation = await bingsMapApi.getLocation(
+                                  position.latitude, position.longitude);
 
-                        setState(() {
-                      actualLocation = defLocation;
-                        });
+                              setState(() {
+                                actualLocation = defLocation;
+                              });
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -252,8 +256,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
-                              side: const BorderSide(
-                                  color: deepBlue, width: 2),
+                              side: const BorderSide(color: deepBlue, width: 2),
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
@@ -266,12 +269,15 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                                         strokeWidth: 2,
                                         color: Colors.white,
                                       )))
-                              : Row(  mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                  height: 20,
-                                  child: Image.asset('images/google_logo.png')),
-                             const SizedBox(width:7), const Text("Google"),
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                        height: 20,
+                                        child: Image.asset(
+                                            'images/google_logo.png')),
+                                    const SizedBox(width: 7),
+                                    const Text("Google"),
                                   ],
                                 ),
                         ),

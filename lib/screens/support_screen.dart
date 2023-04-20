@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:road_mechanic/widgets/custom_button.dart';
+import 'package:monide/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../constants/colors.dart';
 
 class SupportScreen extends StatefulWidget {
@@ -52,13 +51,14 @@ class _SupportScreenState extends State<SupportScreen> {
           children: [
             const Text(
               'Do you need help? Or do have something to tell us?',
-             textAlign: TextAlign.center,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'Poppins',
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 15),
             ),
+            const SizedBox(height: 10),
             CustomButton(
               onPressed: () {
                 _launchURL('https://wa.me/2349073393147');

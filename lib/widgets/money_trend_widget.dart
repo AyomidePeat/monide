@@ -29,7 +29,7 @@ class MoneyTrendsWidget extends StatelessWidget {
             CircleAvatar(radius: 30, backgroundImage: NetworkImage(image)),
             const SizedBox(width: 10),
             SizedBox(
-              width: size.width > 393 ? size.width * 0.8 : size.width * 0.6,
+              width: size.width > 400 ? size.width * 0.8 : size.width * 0.6,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,

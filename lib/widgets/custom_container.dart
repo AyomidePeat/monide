@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:road_mechanic/constants/colors.dart';
 
 class CustomContainer extends StatelessWidget {
   final String text;
@@ -32,7 +31,7 @@ class CustomContainer extends StatelessWidget {
                     height: 30,
                     child: Image.asset(
                       image,
-                      color: Color.fromARGB(255, 135, 202, 236),
+                      color: const Color.fromARGB(255, 135, 202, 236),
                     )),
                 const SizedBox(
                   height: 15,

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:road_mechanic/constants/bank_details.dart';
-import 'package:road_mechanic/screens/search_results_screen.dart';
 
+
+import '../constants/bank_details.dart';
+import '../screens/search_results_screen.dart';
 import '../services/map.api.dart';
 
 final atmLocationProvider = Provider((ref) => mapApiProvider);
 
 class SearchFieldWidget extends ConsumerStatefulWidget {
+   bool isLoading;
   final TextEditingController controller;
-  const SearchFieldWidget({required this.controller, super.key});
+
+   SearchFieldWidget({required this.controller, required this.isLoading, super.key});
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _SearchFieldWidgetState();
@@ -17,19 +20,19 @@ class SearchFieldWidget extends ConsumerStatefulWidget {
 
 class _SearchFieldWidgetState extends ConsumerState<SearchFieldWidget> {
   var searchResults;
-  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final atmLocationRef = ref.watch(mapApiProvider);
     searchForAtms(String query) async {
       setState(() {
         query = widget.controller.text;
-        isLoading = true;
+        widget.isLoading = true;
       });
       final foundAtm = await atmLocationRef.searchForAtm(query, bankLogos);
       setState(() {
         searchResults = foundAtm;
-        isLoading = false;
+        widget.isLoading = false;
       });
       Navigator.push(
           context,
@@ -42,20 +45,19 @@ class _SearchFieldWidgetState extends ConsumerState<SearchFieldWidget> {
     return TextField(
       style: const TextStyle(color: Colors.white),
       controller: widget.controller,
-      decoration:  InputDecoration(
-          contentPadding: const EdgeInsets.all(8),
-          prefixIcon:isLoading?const Text('Searching for',style: TextStyle(color:Colors.white)):const Icon(Icons.search, color: Colors.white),
-
+      decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(8),
+          prefixIcon: Icon(Icons.search, color: Colors.white),
           hintText: 'Search for ATM',
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: Colors.grey,
             fontFamily: 'Poppins',
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
               borderSide:
                   BorderSide(color: Color.fromARGB(255, 32, 68, 97), width: 2),
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          focusedBorder: const OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 1),
               borderRadius: BorderRadius.all(Radius.circular(20)))),
       onSubmitted: searchForAtms,

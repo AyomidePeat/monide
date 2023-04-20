@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:road_mechanic/model/nearest_atm_model.dart';
+import 'package:monide/model/nearest_atm_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../constants/bank_details.dart';
 
@@ -85,7 +85,7 @@ class MapApi {
     } else {
       throw Exception('Failed to search for location');
     }
-    print(foundBanks);
+   
     return foundBanks;
   }
 }

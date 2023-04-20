@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:road_mechanic/constants/colors.dart';
+
 
 class BankInfoScreen extends StatelessWidget {
   final Map bankInfo;

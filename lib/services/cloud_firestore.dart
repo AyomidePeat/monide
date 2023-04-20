@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:road_mechanic/model/atm_status_model.dart';
+import 'package:monide/model/atm_status_model.dart';
 import '../model/user_model.dart';
 
 final databaseProvider = Provider<CloudFirestore>((ref) => CloudFirestore());

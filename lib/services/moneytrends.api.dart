@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:road_mechanic/model/money_trends_model.dart';
+import 'package:monide/model/money_trends_model.dart';
 import 'package:http/http.dart' as http;
 
 final moneyApiProvider = Provider<MoneyTrendsApi>((ref) => MoneyTrendsApi());

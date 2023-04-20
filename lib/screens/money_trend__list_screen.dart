@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/model/money_trends_model.dart';
-import 'package:road_mechanic/services/moneytrends.api.dart';
-import 'package:road_mechanic/widgets/money_trend_widget.dart';
+import 'package:monide/constants/colors.dart';
+import 'package:monide/model/money_trends_model.dart';
+import 'package:monide/services/moneytrends.api.dart';
+import 'package:monide/widgets/money_trend_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final moneyNewsProvider = FutureProvider<List<MoneyTrends>>((ref) async {
@@ -40,13 +40,16 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             title: Row(
-              children: [IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
+              children: [
+                IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon:
+                        const Icon(Icons.arrow_back_ios, color: Colors.white)),
                 const Text(
                   'Money Trends for You',
                   style: TextStyle(
-                      color: Colors.white,  fontFamily: 'Poppins',
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                       fontSize: 15),
                 ),
@@ -67,7 +70,6 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
                       source: data[index].source,
                     ),
                     onTap: () {
-                      
                       String newsUrl = data[index].url;
                       _launchURL(newsUrl);
                     },

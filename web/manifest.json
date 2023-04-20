@@ -1,6 +1,6 @@
 {
-    "name": "road_mechanic",
-    "short_name": "road_mechanic",
+    "name": "monide",
+    "short_name": "monide",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,21 +1,22 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:road_mechanic/constants/bank_details.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/screens/found_atm.dart';
-import 'package:road_mechanic/screens/support_screen.dart';
-import 'package:road_mechanic/screens/upload_atm_status.dart';
-import 'package:road_mechanic/services/map.api.dart';
-import 'package:road_mechanic/widgets/custom_container.dart';
+import 'package:monide/constants/bank_details.dart';
+import 'package:monide/constants/colors.dart';
+import 'package:monide/screens/found_atm.dart';
+import 'package:monide/screens/support_screen.dart';
+import 'package:monide/services/map.api.dart';
+import 'package:monide/widgets/custom_container.dart';
 import '../model/user_model.dart';
 import '../services/cloud_firestore.dart';
 import '../widgets/custom_button.dart';
-import '../widgets/menu.dart';
 import '../widgets/search_field_widget.dart';
 import 'check_atm_screen.dart';
 import 'contact_bank.dart';
 import 'money_trend__list_screen.dart';
+import 'dart:math' show pi;
 
 final atmLocationProvider = Provider((ref) => mapApiProvider);
 final userNameProvider = Provider((ref) => databaseProvider);
@@ -31,15 +32,20 @@ class HomeScreen extends ConsumerStatefulWidget {
       _HomeScreenConsumerState();
 }
 
-class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
+class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _controller;
   var now = DateTime.now();
 
   TextEditingController searchController = TextEditingController();
   bool isLoading = false;
+  bool isSearchLoding = false;
   late var user;
   @override
   void dispose() {
     searchController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -63,9 +69,15 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
     setState(() {
       user = widget.user;
     });
+    _animation = Tween<double>(begin: 0.0, end: 2 * pi).animate(_controller);
+    _controller.repeat();
   }
 
   @override
@@ -104,7 +116,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MenuWidget(),
               FutureBuilder<UserDetails?>(
                   future: userDetailsRef.getUserDetails(),
                   builder: (context, snapshot) {
@@ -129,12 +140,10 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                               fontSize: 13,
                             ));
                       } else {
-                        // User details not found
                         return const Text('User details not found');
                       }
                     }
                   }),
-              //const Text('Hello John Doe', style: TextStyle(fontSize: 13)),
               Container(
                   padding: const EdgeInsets.only(right: 5),
                   height: 30,
@@ -172,7 +181,17 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SearchFieldWidget(controller: searchController),
+              Row(
+                children: [
+                  SearchFieldWidget(
+                    controller: searchController,
+                    isLoading: isSearchLoding,
+                  ),
+                  if (isSearchLoding)
+                    searchAnimation(
+                        controller: _controller, animation: _animation),
+                ],
+              ),
               const SizedBox(height: 10),
               Stack(
                 children: [
@@ -292,6 +311,33 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class searchAnimation extends StatelessWidget {
+  const searchAnimation({
+    super.key,
+    required AnimationController controller,
+    required Animation<double> animation,
+  })  : _controller = controller,
+        _animation = animation;
+
+  final AnimationController _controller;
+  final Animation<double> _animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform(
+          transform: Matrix4.identity()..rotateY(_animation.value),
+          child: const Text('...',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        );
+      },
     );
   }
 }

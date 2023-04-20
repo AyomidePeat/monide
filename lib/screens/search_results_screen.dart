@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:road_mechanic/constants/colors.dart';
-
+import 'package:monide/constants/colors.dart';
 import '../model/nearest_atm_model.dart';
-import '../widgets/nearbyatm_container.dart';
 import '../widgets/search_result_container.dart';
 
 class SearchResultsScreen extends StatelessWidget {

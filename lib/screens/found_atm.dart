@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/screens/upload_atm_status.dart';
+import 'package:monide/constants/colors.dart';
+import 'package:monide/screens/upload_atm_status.dart';
 import '../model/nearest_atm_model.dart';
 import '../widgets/nearbyatm_container.dart';
 
@@ -18,7 +18,7 @@ class _FoundATMScreenConsumerState extends ConsumerState<FoundATMScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       // backgroundColor: deepBlue,
+        backgroundColor: deepBlue,
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,

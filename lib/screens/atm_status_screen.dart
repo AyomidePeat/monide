@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:road_mechanic/constants/colors.dart';
-import 'package:road_mechanic/model/atm_status_model.dart';
-import 'package:road_mechanic/screens/upload_atm_status.dart';
+import 'package:monide/constants/colors.dart';
+import 'package:monide/model/atm_status_model.dart';
+import 'package:monide/screens/upload_atm_status.dart';
 import '../services/cloud_firestore.dart';
 
 class AtmStatusScreen extends ConsumerWidget {
   final atm;
   const AtmStatusScreen({super.key, required this.atm});
- 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final atmStatusRef = ref.watch(databaseProvider);
     return Scaffold(
-       // backgroundColor: deepBlue,
+        // backgroundColor: deepBlue,
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -28,8 +28,9 @@ class AtmStatusScreen extends ConsumerWidget {
                 CircleAvatar(
                   backgroundImage: NetworkImage(atm.imageUrl),
                 ),
-                SizedBox(width:7),
-                Column(crossAxisAlignment:CrossAxisAlignment.start,
+                SizedBox(width: 7),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       atm.name,
@@ -54,20 +55,22 @@ class AtmStatusScreen extends ConsumerWidget {
             )),
         body: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-             
-                 FutureBuilder<AtmStatus?>(
-                  future: atmStatusRef.getAtmStatus('${atm.name + atm.address}'),
+                FutureBuilder<AtmStatus?>(
+                  future:
+                      atmStatusRef.getAtmStatus('${atm.name + atm.address}'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       if (snapshot.hasData && snapshot.data != null) {
                         AtmStatus atmStatus = snapshot.data!;
-                        return Column( crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
                               child: Text(
@@ -75,7 +78,7 @@ class AtmStatusScreen extends ConsumerWidget {
                                 style: const TextStyle(
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
-                                  fontStyle: FontStyle.italic,
+                                    fontStyle: FontStyle.italic,
                                     fontSize: 10),
                               ),
                             ),

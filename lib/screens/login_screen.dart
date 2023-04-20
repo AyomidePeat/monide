@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:road_mechanic/constants/bank_details.dart';
-import 'package:road_mechanic/screens/home_screen.dart';
-import 'package:road_mechanic/screens/signup_screen.dart';
-import 'package:road_mechanic/services/firebase_auth.dart';
-import 'package:road_mechanic/services/map.api.dart';
+import 'package:monide/constants/bank_details.dart';
+import 'package:monide/screens/home_screen.dart';
+import 'package:monide/screens/signup_screen.dart';
+import 'package:monide/services/firebase_auth.dart';
+import 'package:monide/services/map.api.dart';
 import '../constants/colors.dart';
 import '../widgets/custom_button.dart';
 
@@ -120,7 +120,8 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                 child: SizedBox(
                   height: 35,
                   width: double.infinity,
-                  child: CustomButton(color: deepBlue,
+                  child: CustomButton(
+                    color: deepBlue,
                     child: isLoading
                         ? const SizedBox(
                             height: 20,

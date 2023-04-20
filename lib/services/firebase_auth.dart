@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:road_mechanic/model/user_model.dart';
+import 'package:monide/model/user_model.dart';
 
 import '../screens/home_screen.dart';
 import 'cloud_firestore.dart';
