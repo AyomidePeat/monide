@@ -48,7 +48,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
         top: false,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
                 height: size.height / 2.5,
@@ -116,7 +116,7 @@ class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
                             borderSide: BorderSide(color: Colors.white))),
                   ),
                 ),
-              ),
+              ), const SizedBox(height:15),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: SizedBox(
@@ -187,7 +187,9 @@ if (result.isGranted) {
       openAppSettings();
 }
                       }
-                        
+                       setState(() {
+                          isLoading = false;
+                        });  
                        
                       } else {
                         setState(() {
@@ -212,6 +214,7 @@ if (result.isGranted) {
                 ),
               ),
               const SizedBox(height: 10),
+               const SizedBox(height:15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -233,57 +236,7 @@ if (result.isGranted) {
                 ],
               ),
               const SizedBox(height: 7),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: SizedBox(
-                  width: size.width / 3,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        googlesignIn = true;
-                      });
-                      var user = await authenticationHandler.signInWithGoogle();
-                      setState(() {
-                        googlesignIn = false;
-                      });
-                      if (user != null) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen(
-                                      location: actualLocation,
-                                      user: user,
-                                    )));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        side: const BorderSide(color: deepBlue, width: 2),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: googlesignIn
-                        ? const SizedBox(
-                            height: 20,
-                            child: AspectRatio(
-                                aspectRatio: 1 / 1,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                )))
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                  height: 20,
-                                  child: Image.asset('images/google_logo.png')),
-                              const SizedBox(width: 7),
-                              const Text("Google"),
-                            ],
-                          ),
-                  ),
-                ),
-              ),
+             
             ],
           ),
         ),

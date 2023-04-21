@@ -24,7 +24,8 @@ class MapApi {
         addressString = '$street $city, $state';
       }
     } catch (e) {
-      return 'Failed to reverse geocode. Exception: $e';
+      addressString = 'Unknown';
+      return addressString ;
     }
     return addressString;
   }
@@ -85,7 +86,7 @@ class MapApi {
     } else {
       throw Exception('Failed to search for location');
     }
-   
+
     return foundBanks;
   }
 }

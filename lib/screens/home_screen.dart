@@ -271,8 +271,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                   Positioned(
                       left: size.width > 393
                           ? size.width * 0.70
-                          : size.width > 925
-                              ? size.width * 0.80
+                          : size.width > 924
+                              ? size.width * 0.90
                               : size.width * 0.4,
                       height: 170,
                       bottom: 10,
@@ -292,7 +292,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                       fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: size.height * 0.5),
+                constraints: BoxConstraints(maxHeight: size.height * 0.6),
                 child: GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

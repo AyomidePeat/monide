@@ -35,7 +35,7 @@ class _SupportScreenState extends State<SupportScreen> {
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white)),
               const Text(
-                'Found ATMs',
+                'Help/Support',
                 style: TextStyle(
                     fontFamily: 'Poppins',
                     color: Colors.white,
@@ -46,29 +46,31 @@ class _SupportScreenState extends State<SupportScreen> {
           )),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-        
-          children: [
-            Image.asset('images/contact.png'),
-             const SizedBox(height: 20),
-            const Text(
-              'Do you need help? Or do have something to tell us?',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
-            ),
-            const SizedBox(height: 30),
-            CustomButton(
-              onPressed: () {
-                _launchURL('https://wa.me/2349073393147');
-              },
-              color: const Color.fromARGB(255, 32, 68, 97),
-              child: const Text('Contact Us'),
-            )
-          ],
+        child: Center(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Image.asset('images/contact.png'),
+               const SizedBox(height: 20),
+              const Text(
+                'Do you need help? Or do have something to tell us?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+              const SizedBox(height: 30),
+              CustomButton(
+                onPressed: () {
+                  _launchURL('https://wa.me/2349073393147');
+                },
+                color: const Color.fromARGB(255, 32, 68, 97),
+                child: const Text('Contact Us'),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:monide/constants/colors.dart';
 import 'package:monide/model/atm_status_model.dart';
+import 'package:monide/screens/home_screen.dart';
 import 'package:monide/widgets/custom_button.dart';
 
 import '../services/cloud_firestore.dart';
@@ -265,6 +266,25 @@ class _UploadStatusScreenConsumerState
                         isLoading = false;
                         action = 'Uploaded';
                       });
+                      AlertDialog(
+                          content: const Text(
+                            'Thank you for helping out. Youre the best👍',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                          backgroundColor:
+                              const Color.fromARGB(255, 32, 68, 97),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('OK'),
+                            )
+                          ]);
                     },
                     color: const Color.fromARGB(255, 32, 68, 97),
                     child: isLoading

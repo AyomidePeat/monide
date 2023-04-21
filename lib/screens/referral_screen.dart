@@ -33,15 +33,17 @@ backgroundColor: deepBlue,
 
             body:Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                 Image.asset('images/reff.png', ), 
-                 const Text("Referral Not Available Yet",style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),)
-                ],
+              child: Center(
+                child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                   Image.asset('images/reff.png', ), 
+                   const Text("Referral Not Available Yet",style: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),)
+                  ],
+                ),
               ),
             )
     );

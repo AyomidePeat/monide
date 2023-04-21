@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/colors.dart';
+
 
 class BankInfoScreen extends StatelessWidget {
   final Map bankInfo;
@@ -14,7 +16,7 @@ class BankInfoScreen extends StatelessWidget {
     final String contact = bankInfo['contact'].toString();
 
     return Scaffold(
-    //  backgroundColor: deepBlue,
+      backgroundColor: deepBlue,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,

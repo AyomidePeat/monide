@@ -47,6 +47,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
         top: false,
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
                 height: size.height / 2.5,
@@ -61,7 +62,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const Text(
                       "Sign Up",
@@ -71,6 +72,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 15),
                     TextField(
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
@@ -128,7 +130,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                             border: const OutlineInputBorder(
                                 borderSide: BorderSide.none),
                             hintText: 'Password',
-                            hintStyle: const TextStyle(color: Colors.white),
+                            hintStyle: const TextStyle(color: Colors.grey),
                             suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -147,6 +149,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                                 borderSide: BorderSide(color: Colors.white))),
                       ),
                     ),
+                    const SizedBox(height: 15),
                     SizedBox(
                         width: double.infinity,
                         child: CustomButton(
@@ -196,6 +199,7 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                                             style: TextStyle(fontSize: 16))));
                               }
                             })),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -218,70 +222,6 @@ class _SignUpScreenConsumerState extends ConsumerState<SignUpScreen> {
                                     color: Color.fromARGB(255, 29, 78, 117),
                                     fontWeight: FontWeight.bold))),
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SizedBox(
-                        width: size.width / 3,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() {
-                              googlesignIn = true;
-                            });
-                            var user =
-                                await authenticationHandler.signInWithGoogle();
-                            setState(() {
-                              googlesignIn = false;
-                            });
-                            if (user != null) {
-                              Position position =
-                                  await Geolocator.getCurrentPosition(
-                                      desiredAccuracy:
-                                          LocationAccuracy.bestForNavigation);
-                              final bingsMapApi = locationRef;
-                              final defLocation = await bingsMapApi.getLocation(
-                                  position.latitude, position.longitude);
-
-                              setState(() {
-                                actualLocation = defLocation;
-                              });
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen(
-                                            location: actualLocation,
-                                            user: user,
-                                          )));
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              side: const BorderSide(color: deepBlue, width: 2),
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          child: googlesignIn
-                              ? const SizedBox(
-                                  height: 20,
-                                  child: AspectRatio(
-                                      aspectRatio: 1 / 1,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      )))
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                        height: 20,
-                                        child: Image.asset(
-                                            'images/google_logo.png')),
-                                    const SizedBox(width: 7),
-                                    const Text("Google"),
-                                  ],
-                                ),
-                        ),
-                      ),
                     ),
                   ],
                 ),
