@@ -14,7 +14,7 @@ class _SupportScreenState extends State<SupportScreen> {
   void _launchURL(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+      await launchUrl(uri, mode:LaunchMode.externalApplication  );
     } else {
       throw 'Could not launch $url';
     }
@@ -47,9 +47,10 @@ class _SupportScreenState extends State<SupportScreen> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        
           children: [
-            Image.asset('images/contact'),
+            Image.asset('images/contact.png'),
+             const SizedBox(height: 20),
             const Text(
               'Do you need help? Or do have something to tell us?',
               textAlign: TextAlign.center,
@@ -59,7 +60,7 @@ class _SupportScreenState extends State<SupportScreen> {
                   fontWeight: FontWeight.bold,
                   fontSize: 15),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             CustomButton(
               onPressed: () {
                 _launchURL('https://wa.me/2349073393147');

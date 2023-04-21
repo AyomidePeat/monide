@@ -13,7 +13,7 @@ class AtmStatusScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final atmStatusRef = ref.watch(databaseProvider);
     return Scaffold(
-        // backgroundColor: deepBlue,
+       backgroundColor: deepBlue,
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,

@@ -1,4 +1,5 @@
-
+import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,9 +7,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:monide/constants/bank_details.dart';
 import 'package:monide/constants/colors.dart';
 import 'package:monide/screens/found_atm.dart';
+import 'package:monide/screens/referral_screen.dart';
 import 'package:monide/screens/support_screen.dart';
 import 'package:monide/services/map.api.dart';
 import 'package:monide/widgets/custom_container.dart';
+import '../constants/text_type_in_effect.dart';
 import '../model/user_model.dart';
 import '../services/cloud_firestore.dart';
 import '../widgets/custom_button.dart';
@@ -32,15 +35,20 @@ class HomeScreen extends ConsumerStatefulWidget {
       _HomeScreenConsumerState();
 }
 
-class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
+class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late Animation<Offset> animation;
+  late AnimationController _controller;
   var now = DateTime.now();
 
   TextEditingController searchController = TextEditingController();
   bool isLoading = false;
+  bool isSearchLoding = true;
   late var user;
   @override
   void dispose() {
     searchController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -64,9 +72,17 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 6),
+    );
     setState(() {
       user = widget.user;
     });
+
+    animation = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _controller.forward();
   }
 
   @override
@@ -92,8 +108,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
       FoundATMScreen(nearbyAtm: widget.nearbyAtm),
       const SupportScreen(),
       const MoneyTrendsScreen(),
-      const MoneyTrendsScreen(),
       const ContactBankScreen(),
+      const ReferalScreen()
     ];
     return Scaffold(
       backgroundColor: deepBlue,
@@ -105,7 +121,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            
               FutureBuilder<UserDetails?>(
                   future: userDetailsRef.getUserDetails(),
                   builder: (context, snapshot) {
@@ -115,7 +130,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                             fontFamily: 'Poppins',
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 13,
+                            fontSize: 17,
                           ));
                     } else {
                       if (snapshot.hasData && snapshot.data != null) {
@@ -130,12 +145,10 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                               fontSize: 17,
                             ));
                       } else {
-                        // User details not found
                         return const Text('User details not found');
                       }
                     }
                   }),
-              //const Text('Hello John Doe', style: TextStyle(fontSize: 13)),
               Container(
                   padding: const EdgeInsets.only(right: 5),
                   height: 30,
@@ -166,128 +179,139 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
             ],
           ),
           iconTheme: const IconThemeData(color: Colors.white)),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SearchFieldWidget(controller: searchController),
-            const SizedBox(height: 10),
-            Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 180,
-                  color: Colors.transparent,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Container(
-                        width: double.infinity,
-                        height: 150,
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 32, 68, 97),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            children: [
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                      width: size.width * 0.45,
-                                      child: const Text(
-                                          'Find out if ATMs around you are working',
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SearchFieldWidget(
+                    controller: searchController,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 180,
+                    color: Colors.transparent,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 32, 68, 97),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                        width: size.width * 0.45,
+                                        child: const TextEffect(
+                                          text:
+                                              'Find out if ATMs around you are working.',
                                           overflow: TextOverflow.fade,
                                           style: TextStyle(
                                             fontFamily: 'Poppins',
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18,
-                                          ))),
-                                  SizedBox(
-                                    height: 30,
-                                    width: 100,
-                                    child: CustomButton(
-                                      color: deepBlue,
-                                      child: isLoading
-                                          ? const SizedBox(
-                                              height: 20,
-                                              child: AspectRatio(
-                                                  aspectRatio: 1 / 1,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                    color: Colors.white,
-                                                  )))
-                                          : const Text('Find ATM'),
-                                      onPressed: () {
-                                        positionGetter();
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    FoundATMScreen(
-                                                        nearbyAtm:
-                                                            nearestAtm)));
-                                      },
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      height: 30,
+                                      width: 100,
+                                      child: CustomButton(
+                                        color: deepBlue,
+                                        child: isLoading
+                                            ? const SizedBox(
+                                                height: 20,
+                                                child: AspectRatio(
+                                                    aspectRatio: 1 / 1,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                      color: Colors.white,
+                                                    )))
+                                            : const Text('Find ATM'),
+                                        onPressed: () {
+                                          positionGetter();
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FoundATMScreen(
+                                                          nearbyAtm:
+                                                              nearestAtm)));
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                    left: size.width > 393
-                        ? size.width * 0.70
-                        : size.width > 925
-                            ? size.width * 0.80
-                            : size.width * 0.4,
-                    height: 170,
-                    bottom: 10,
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: Image.asset(
-                          'images/phoneman.png',
-                        )))
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text('Perform an Action',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: size.height*0.49),
-              child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    mainAxisExtent: size.height > 830 ? 170 : 115,
-                  ),
-                  itemCount: 6,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CustomContainer(
-                      screen: screens[index],
-                      image: images[index],
-                      text: actions[index],
-                    );
-                  }),
-            ),
-          ],
+                  Positioned(
+                      left: size.width > 393
+                          ? size.width * 0.70
+                          : size.width > 925
+                              ? size.width * 0.80
+                              : size.width * 0.4,
+                      height: 170,
+                      bottom: 10,
+                      child: Align(
+                          alignment: Alignment.topRight,
+                          child: Image.asset(
+                            'images/phoneman.png',
+                          )))
+                ],
+              ),
+              const SizedBox(height: 10),
+              const Text('Perform an Action',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: size.height * 0.5),
+                child: GridView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      mainAxisExtent: size.height > 830 ? 170 : 120,
+                    ),
+                    itemCount: 6,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CustomContainer(
+                        screen: screens[index],
+                        image: images[index],
+                        text: actions[index],
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );
