@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:monide/model/atm_status_model.dart';
-import '../model/user_model.dart';
+import 'package:monide/domain/entities/atm_status.dart';
+import 'package:monide/features/auth/data/models/user_model.dart';
 
 final databaseProvider = Provider<CloudFirestore>((ref) => CloudFirestore());
 
@@ -23,8 +23,8 @@ class CloudFirestore {
         .doc(firebaseAuth.currentUser?.uid)
         .get();
     if (snapshot.exists) {
-      UserDetails user = UserDetails.getModelFromJson(
-        json: snapshot.data() as dynamic,
+      UserDetails user = UserDetails.fromJson(
+         snapshot.data() as dynamic,
       );
       return user;
     } else {

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:monide/core/constants/colors.dart';
+import 'package:monide/domain/entities/atm.dart';
 import 'package:monide/model/nearest_atm_model.dart';
-import 'package:monide/features/atm_status_screen.dart';
+import 'package:monide/features/atm/presentation/screens/atm_status_screen.dart';
 import 'package:monide/services/map.api.dart';
 import 'package:monide/widgets/search_field_widget.dart';
 import '../widgets/nearbyatm_container.dart';
@@ -12,7 +13,7 @@ import 'dart:math' show pi;
 final atmLocationProvider = FutureProvider((ref) => mapApiProvider);
 
 class CheckAtmScreen extends ConsumerStatefulWidget {
-  final nearestAtm;
+  final List<ATM> nearestAtm;
   const CheckAtmScreen({required this.nearestAtm, super.key});
 
   @override
@@ -49,6 +50,7 @@ class _CheckAtmScreenState extends ConsumerState<CheckAtmScreen>
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       top: false,
       child: Scaffold(

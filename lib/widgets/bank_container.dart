@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:monide/features/bank_info_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class BankContainer extends StatelessWidget {
   final String image;
@@ -37,12 +38,17 @@ class BankContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        height: 80,
-                        width: 70,
-                        child: Image.network(
-                          image,
-                        ),
-                      ),
+  height: 80,
+  width: 70,
+  child: CachedNetworkImage(
+    imageUrl: image,
+    fit: BoxFit.cover,
+    placeholder: (context, url) => const Center(
+      child: CircularProgressIndicator(strokeWidth: 2),
+    ),
+    errorWidget: (context, url, error) => const Icon(Icons.error),
+  ),
+),
                       Text(name,
                           textAlign: TextAlign.center,
                           style: const TextStyle(

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:monide/model/user_model.dart';
+import 'package:monide/domain/entities/user.dart';
+import 'package:monide/features/auth/data/models/user_model.dart';
 import 'cloud_firestore.dart';
 
 class FirebaseAuthentication {

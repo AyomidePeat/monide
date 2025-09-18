@@ -12,4 +12,22 @@ class ATM {
     required this.city,
     required this.imageUrl,
   });
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'distance': distance,
+        'address': address,
+        'city': city,
+        'imageUrl': imageUrl,
+      };
+
+  factory ATM.fromJson(Map<String, dynamic> json) {
+    return ATM(
+      name: json['name'] as String? ?? '',
+      distance: (json['distance'] as num?)?.toDouble() ?? 0.0,
+      address: json['address']?['road'] as String? ?? '',
+      city: json['address']?['city'] as String? ?? '',
+      imageUrl: json['imageUrl'] as String? ?? '',
+    );
+  }
 }

@@ -9,8 +9,8 @@ final atmLocationProvider = Provider((ref) => mapApiProvider);
 
 class SearchFieldWidget extends ConsumerStatefulWidget {
   final TextEditingController controller;
-
-  SearchFieldWidget({required this.controller, super.key});
+  final onSubmitted;
+  SearchFieldWidget({required this.controller, this.onSubmitted, super.key});
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _SearchFieldWidgetState();
@@ -43,7 +43,8 @@ class _SearchFieldWidgetState extends ConsumerState<SearchFieldWidget> {
 
     return Row(
       children: [
-        SizedBox(width: isLoading? size.width*0.8:size.width*0.85,
+        SizedBox(
+          width: isLoading ? size.width * 0.8 : size.width * 0.85,
           child: TextField(
             style: const TextStyle(color: Colors.white),
             controller: widget.controller,
@@ -56,8 +57,8 @@ class _SearchFieldWidgetState extends ConsumerState<SearchFieldWidget> {
                   fontFamily: 'Poppins',
                 ),
                 enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 32, 68, 97), width: 2),
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(255, 32, 68, 97), width: 2),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white, width: 1),
@@ -65,15 +66,16 @@ class _SearchFieldWidgetState extends ConsumerState<SearchFieldWidget> {
             onSubmitted: searchForAtms,
           ),
         ),
-        const SizedBox(width:5),
-        if(isLoading) const SizedBox(
-                            height: 20,
-                            child: AspectRatio(
-                                aspectRatio: 1 / 1,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                )))
+        const SizedBox(width: 5),
+        if (isLoading)
+          const SizedBox(
+              height: 20,
+              child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  )))
       ],
     );
   }

@@ -37,7 +37,7 @@ backgroundColor: deepBlue,
                 child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                    Image.asset('images/reff.png', ), 
-                   const Text("Referral Not Available Yet",style: TextStyle(
+                   const Text("Referral feature Not Available Yet",style: TextStyle(
                           fontFamily: 'Poppins',
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

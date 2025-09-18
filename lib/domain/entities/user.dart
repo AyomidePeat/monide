@@ -1,9 +1,9 @@
-class User {
-  final String name;
-  final String phoneNumber;
+// class User {
+//   final String name;
+//   final String phoneNumber;
 
-  User({
-    required this.name,
-    required this.phoneNumber,
-  });
-}
+//   User({
+//     required this.name,
+//     required this.phoneNumber,
+//   });
+// }

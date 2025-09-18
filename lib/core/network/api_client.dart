@@ -1,31 +1,33 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../error/exceptions.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
+import 'package:monide/core/network/error_handler.dart';
 
 class ApiClient {
-  final http.Client client;
+  final Dio _dio;
   final String baseUrl;
+  final Logger _logger = Logger();
 
-  ApiClient({required this.client, required this.baseUrl});
+  ApiClient({required this.baseUrl}) : _dio = Dio(BaseOptions(baseUrl: baseUrl));
 
   Future<dynamic> get(String endpoint, {Map<String, String>? headers}) async {
     try {
-      final response = await client.get(
-        Uri.parse('$baseUrl$endpoint'),
-        headers: headers,
-      ).timeout(const Duration(seconds: 10));
-
-      return _handleResponse(response);
-    } catch (e) {
-      throw ServerException('Network error: $e');
-    }
-  }
-
-  dynamic _handleResponse(http.Response response) {
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return jsonDecode(response.body);
-    } else {
-      throw ServerException('Server error: ${response.statusCode}');
+      final response = await _dio.get(
+        endpoint,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            ...?headers,
+          },
+        ),
+      );
+      _logger.i('API Response: ${response.data} (URL: $baseUrl$endpoint)');
+      return response.data;
+    } on DioException catch (e) {
+      throw ErrorHandler.handleError(e);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected error in ApiClient: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 }

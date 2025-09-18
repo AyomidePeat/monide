@@ -1,10 +1,10 @@
-import 'package:monide/core/error/exceptions.dart';
-import 'package:monide/core/error/failures.dart';
+import 'package:logger/logger.dart';
+import 'package:monide/core/network/error_handler.dart';
 import 'package:monide/features/auth/data/datasources/auth_data_source.dart';
-
 
 class AuthRepository {
   final AuthDataSource authDataSource;
+  final Logger _logger = Logger();
 
   AuthRepository(this.authDataSource);
 
@@ -15,40 +15,42 @@ class AuthRepository {
     required String phoneNumber,
   }) async {
     try {
-      if (name.isEmpty || email.isEmpty || password.isEmpty || phoneNumber.isEmpty) {
-        throw AuthException('All fields are required');
-      }
       await authDataSource.signUp(
         name: name,
         email: email,
         password: password,
         phoneNumber: phoneNumber,
       );
-    } on AuthException catch (e) {
-      throw AuthFailure(e.message);
-    } catch (e) {
-      throw AuthFailure('An unexpected error occurred');
+    } on ApiException catch (e) {
+      _logger.e('ApiException in signUp: ${e.message} (Code: ${e.statusCode})');
+      throw ApiException(message: e.message, statusCode: e.statusCode);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected error in signUp: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 
   Future<void> signIn({required String email, required String password}) async {
     try {
-      if (email.isEmpty || password.isEmpty) {
-        throw AuthException('Email and password are required');
-      }
       await authDataSource.signIn(email: email, password: password);
-    } on AuthException catch (e) {
-      throw AuthFailure(e.message);
-    } catch (e) {
-      throw AuthFailure('An unexpected error occurred');
+    } on ApiException catch (e) {
+      _logger.e('ApiException in signIn: ${e.message} (Code: ${e.statusCode})');
+      throw ApiException(message: e.message, statusCode: e.statusCode);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected error in signIn: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 
   Future<void> signOut() async {
     try {
       await authDataSource.signOut();
-    } on AuthException catch (e) {
-      throw AuthFailure(e.message);
+    } on ApiException catch (e) {
+      _logger.e('ApiException in signOut: ${e.message} (Code: ${e.statusCode})');
+      throw ApiException(message: e.message, statusCode: e.statusCode);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected error in signOut: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 }

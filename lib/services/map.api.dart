@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:monide/domain/entities/atm.dart';
+import 'package:monide/domain/entities/search_result.dart';
 import 'package:monide/model/nearest_atm_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../core/constants/bank_details.dart';
@@ -11,7 +13,7 @@ class MapApi {
   Future<String> getLocation(double latitude, double longitude) async {
     String addressString = '';
     try {
-      String apiKey = dotenv.env['MAP_API_KEY'] ?? '';
+      String apiKey = 'pk.b14dade08dd88dd219fe1653cf88459c' ?? '';
       String endpoint =
           'https://us1.locationiq.com/v1/reverse.php?key=$apiKey&lat=$latitude&lon=$longitude&format=json';
       final response = await http.get(Uri.parse(endpoint));
@@ -34,7 +36,7 @@ class MapApi {
       double latitude, double longitude, List<String> imageUrls) async {
     List<ATM> banks = [];
     try {
-      String apiKey = dotenv.env['MAP_API_KEY'] ?? '';
+      String apiKey = 'pk.b14dade08dd88dd219fe1653cf88459c' ?? '';
       String endpoint =
           'https://us1.locationiq.com/v1/nearby.php?key=$apiKey&lat=$latitude&lon=$longitude&tag=bank&radius=5000&format=json';
       final response = await http.get(Uri.parse(endpoint));
@@ -62,14 +64,14 @@ class MapApi {
   }
 
   String getBankImage(String bankName, List<String> imageUrls) {
-    String? bankImage = bankNametoImage[bankName] ??
+    String? bankImage = bankNameToImage[bankName] ??
         'https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/finance/what-is-atm-717x404.jpg';
     return bankImage ?? '';
   }
 
   Future<dynamic> searchForAtm(String query, List<String> imageUrls) async {
     List<SearchResult> foundBanks = [];
-    String apiKey = dotenv.env['MAP_API_KEY'] ?? '';
+    String apiKey = 'pk.b14dade08dd88dd219fe1653cf88459c' ?? '';
     String url =
         'https://us1.locationiq.com/v1/search.php?key=$apiKey&q=$query&countrycodes=ng&&format=json&addressdetails=1';
 

@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:monide/core/error/exceptions.dart';
+import 'package:logger/logger.dart';
+import 'package:monide/core/network/error_handler.dart';
 
 class AuthDataSource {
   final FirebaseAuth firebaseAuth;
+  final Logger _logger = Logger();
 
   AuthDataSource(this.firebaseAuth);
 
@@ -13,19 +15,32 @@ class AuthDataSource {
     required String phoneNumber,
   }) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-          email: email.trim(), password: password.trim());
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+      await userCredential.user?.updateDisplayName(name.trim());
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message ?? 'Authentication failed');
+      _logger.e('Firebase signUp error: ${e.message} (Code: ${e.code})');
+      throw ErrorHandler.handleError(e);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected signUp error: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 
   Future<void> signIn({required String email, required String password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
-          email: email.trim(), password: password.trim());
+        email: email.trim(),
+        password: password.trim(),
+      );
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message ?? 'Authentication failed');
+      _logger.e('Firebase signIn error: ${e.message} (Code: ${e.code})');
+      throw ErrorHandler.handleError(e);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected signIn error: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 
@@ -33,7 +48,11 @@ class AuthDataSource {
     try {
       await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message ?? 'Sign out failed');
+      _logger.e('Firebase signOut error: ${e.message} (Code: ${e.code})');
+      throw ErrorHandler.handleError(e);
+    } catch (e, stackTrace) {
+      _logger.e('Unexpected signOut error: $e\n$stackTrace');
+      throw ApiException(message: 'Unexpected error: $e');
     }
   }
 }

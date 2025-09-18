@@ -1,50 +1,51 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:monide/core/constants/bank_details.dart';
 import 'package:monide/core/constants/colors.dart';
+import 'package:monide/core/constants/text_type_in_effect.dart';
+import 'package:monide/core/providers/app_providers.dart';
+import 'package:monide/features/atm/presentation/providers/map_provider.dart';
+import 'package:monide/features/auth/data/models/user_model.dart';
+import 'package:monide/features/check_atm_screen.dart';
+import 'package:monide/features/contact_bank.dart';
 import 'package:monide/features/found_atm.dart';
+import 'package:monide/features/money_trend__list_screen.dart';
 import 'package:monide/features/referral_screen.dart';
 import 'package:monide/features/support_screen.dart';
-import 'package:monide/services/map.api.dart';
+import 'package:monide/widgets/custom_button.dart';
 import 'package:monide/widgets/custom_container.dart';
-import '../core/constants/text_type_in_effect.dart';
-import '../model/user_model.dart';
-import '../services/cloud_firestore.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/search_field_widget.dart';
-import 'check_atm_screen.dart';
-import 'contact_bank.dart';
-import 'money_trend__list_screen.dart';
-import 'dart:math' show pi;
-
-final atmLocationProvider = Provider((ref) => mapApiProvider);
-final userNameProvider = Provider((ref) => databaseProvider);
+import 'package:monide/widgets/search_field_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  final location;
-  final user;
-  final nearbyAtm;
-  const HomeScreen({super.key, this.location, this.user, this.nearbyAtm});
+  const HomeScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _HomeScreenConsumerState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenConsumerState();
 }
 
 class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
   late Animation<Offset> animation;
   late AnimationController _controller;
-  var now = DateTime.now();
-
   TextEditingController searchController = TextEditingController();
-  bool isLoading = false;
-  bool isSearchLoding = true;
-  late var user;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 6),
+    );
+    animation = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _controller.forward();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchLocationAndAtms();
+    });
+  }
+
   @override
   void dispose() {
     searchController.dispose();
@@ -52,7 +53,48 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
     super.dispose();
   }
 
-  List images = [
+  Future<void> _fetchLocationAndAtms() async {
+    final mapNotifier = ref.read(mapProvider.notifier);
+    try {
+      final permission = await Permission.location.request();
+      if (permission.isGranted) {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        await mapNotifier.getLocation(position.latitude, position.longitude);
+        await mapNotifier.fetchNearbyAtms(
+            position.latitude, position.longitude);
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: deepBlue,
+              content: Text(
+                'Please enable location permissions in settings',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          );
+          await openAppSettings();
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: deepBlue,
+            content: Text(
+              'Error accessing location: $e',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  List<String> images = [
     'images/loading.png',
     'images/atm.png',
     'images/customer-support.png',
@@ -70,115 +112,99 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
   ];
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 6),
-    );
-    setState(() {
-      user = widget.user;
-    });
-
-    animation = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-    _controller.forward();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var nearestAtm;
-    final atmLocationRef = ref.watch(mapApiProvider);
-    final userDetailsRef = ref.watch(databaseProvider);
+    final mapState = ref.watch(mapProvider);
+    final userDetailsRef = ref.watch(firestoreProvider);
     final size = MediaQuery.of(context).size;
 
-    positionGetter() async {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      final nearByAtm = await atmLocationRef.findNearestAtm(
-          position.latitude, position.longitude, bankLogos);
-      setState(() {
-        nearestAtm = nearByAtm;
-        isLoading = false;
-      });
-    }
-
-    List screens = [
-      CheckAtmScreen(nearestAtm: widget.nearbyAtm),
-      FoundATMScreen(nearbyAtm: widget.nearbyAtm),
+    List<Widget> screens = [
+      CheckAtmScreen(
+          nearestAtm: mapState.atms),
+      FoundATMScreen(nearbyAtm: mapState.atms),
       const SupportScreen(),
       const MoneyTrendsScreen(),
       const ContactBankScreen(),
-      const ReferalScreen()
+      const ReferalScreen(),
     ];
+
     return Scaffold(
       backgroundColor: deepBlue,
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FutureBuilder<UserDetails?>(
-                  future: userDetailsRef.getUserDetails(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Hello',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ));
-                    } else {
-                      if (snapshot.hasData && snapshot.data != null) {
-                        // User details retrieved successfully
-                        UserDetails userDetails = snapshot.data!;
-                        String username = userDetails.name; // Get the username
-                        return Text('Hi $username👋',
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ));
-                      } else {
-                        return const Text('User details not found');
-                      }
-                    }
-                  }),
-              Container(
-                  padding: const EdgeInsets.only(right: 5),
-                  height: 30,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 32, 68, 97),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FutureBuilder<UserDetails?>(
+              future: userDetailsRef.getUserDetails(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                      child: CircularProgressIndicator(color: Colors.white));
+                } else if (snapshot.hasError) {
+                  return const Text(
+                    'Hi 👋',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                      fontSize: 17,
                     ),
+                  );
+                } else {
+                  final userDetails = snapshot.data;
+                  return Text(
+                    userDetails != null ? 'Hi ${userDetails.name}👋' : 'Hello',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                    ),
+                  );
+                }
+              },
+            ),
+            Container(
+              padding: const EdgeInsets.only(right: 5),
+              height: 30,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 32, 68, 97),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Icon(
+                    Icons.location_on_rounded,
+                    color: Colors.white,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Icon(
-                        Icons.location_on_rounded,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        widget.location??'',
-                        overflow: TextOverflow.fade,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
+                  mapState.isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          mapState.location ?? 'Unknown',
+                          overflow: TextOverflow.fade,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                      )
-                    ],
-                  )),
-            ],
-          ),
-          iconTheme: const IconThemeData(color: Colors.white)),
+                ],
+              ),
+            ),
+          ],
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -190,6 +216,18 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                 children: [
                   SearchFieldWidget(
                     controller: searchController,
+                    onSubmitted: (query) {
+                      if (query.isNotEmpty) {
+                        ref.read(mapProvider.notifier).searchForAtm(query);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FoundATMScreen(
+                                nearbyAtm: mapState.searchResults),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
@@ -207,8 +245,9 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                           width: double.infinity,
                           height: 150,
                           decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 32, 68, 97),
-                              borderRadius: BorderRadius.circular(10)),
+                            color: const Color.fromARGB(255, 32, 68, 97),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Row(
@@ -219,43 +258,49 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                        width: size.width * 0.45,
-                                        child: const TextEffect(
-                                          text:
-                                              'Find out if ATMs around you are working.',
-                                          overflow: TextOverflow.fade,
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                          ),
-                                        )),
+                                      width: size.width * 0.45,
+                                      child: const TextEffect(
+                                        text:
+                                            'Find out if ATMs around you are working.',
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
                                     SizedBox(
                                       height: 30,
                                       width: 100,
                                       child: CustomButton(
                                         color: deepBlue,
-                                        child: isLoading
+                                        child: mapState.isLoading
                                             ? const SizedBox(
                                                 height: 20,
                                                 child: AspectRatio(
-                                                    aspectRatio: 1 / 1,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      strokeWidth: 2,
-                                                      color: Colors.white,
-                                                    )))
+                                                  aspectRatio: 1 / 1,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 2,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              )
                                             : const Text('Find ATM'),
                                         onPressed: () {
-                                          positionGetter();
-                                          Navigator.push(
+                                          if (!mapState.isLoading) {
+                                            Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      FoundATMScreen(
-                                                          nearbyAtm:
-                                                              nearestAtm)));
+                                                builder: (context) =>
+                                                    FoundATMScreen(
+                                                  nearbyAtm: mapState.atms,
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         },
                                       ),
                                     ),
@@ -269,46 +314,50 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                     ),
                   ),
                   Positioned(
-                      left: size.width > 393
-                          ? size.width * 0.70
-                          : size.width > 924
-                              ? size.width * 0.90
-                              : size.width * 0.4,
-                      height: 170,
-                      bottom: 10,
-                      child: Align(
-                          alignment: Alignment.topRight,
-                          child: Image.asset(
-                            'images/phoneman.png',
-                          )))
+                    left: size.width > 393
+                        ? size.width * 0.70
+                        : size.width > 924
+                            ? size.width * 0.90
+                            : size.width * 0.4,
+                    height: 170,
+                    bottom: 10,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Image.asset('images/phoneman.png'),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
-              const Text('Perform an Action',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold)),
+              const Text(
+                'Perform an Action',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 10),
               ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: size.height * 0.6),
                 child: GridView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      mainAxisExtent: size.height > 830 ? 170 : 120,
-                    ),
-                    itemCount: 6,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CustomContainer(
-                        screen: screens[index],
-                        image: images[index],
-                        text: actions[index],
-                      );
-                    }),
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                    mainAxisExtent: size.height > 830 ? 170 : 120,
+                  ),
+                  itemCount: 6,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CustomContainer(
+                      screen: screens[index],
+                      image: images[index],
+                      text: actions[index],
+                    );
+                  },
+                ),
               ),
             ],
           ),
