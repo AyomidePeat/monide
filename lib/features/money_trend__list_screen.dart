@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:monide/constants/colors.dart';
+import 'package:monide/core/constants/colors.dart';
 import 'package:monide/model/money_trends_model.dart';
 import 'package:monide/services/moneytrends.api.dart';
 import 'package:monide/widgets/money_trend_widget.dart';

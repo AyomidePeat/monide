@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:monide/constants/colors.dart';
+import 'package:monide/core/constants/colors.dart';
 
 
 class ReferalScreen extends StatelessWidget {

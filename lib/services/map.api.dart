@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:monide/model/nearest_atm_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../constants/bank_details.dart';
+import '../core/constants/bank_details.dart';
 
 final mapApiProvider = Provider<MapApi>((ref) => MapApi());
 

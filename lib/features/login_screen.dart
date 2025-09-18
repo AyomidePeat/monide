@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:monide/constants/bank_details.dart';
+import 'package:monide/core/constants/bank_details.dart';
 import 'package:monide/features/home_screen.dart';
 import 'package:monide/features/signup_screen.dart';
 import 'package:monide/services/firebase_auth.dart';
 import 'package:monide/services/map.api.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../constants/colors.dart';
+import '../core/constants/colors.dart';
 import '../widgets/custom_button.dart';
 
 final locationProvider = Provider((ref) => mapApiProvider);
@@ -25,7 +25,6 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenConsumerState extends ConsumerState<LoginScreen> {
   FirebaseAuthentication authenticationHandler = FirebaseAuthentication();
-  // GoogleSignIn googleSignIn = GoogleSignIn();
   bool isLoading = false;
   bool googlesignIn = false;
   var nearestAtm;

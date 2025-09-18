@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:monide/constants/colors.dart';
+import 'package:monide/core/constants/colors.dart';
 import 'package:monide/model/atm_status_model.dart';
 import 'package:monide/features/home_screen.dart';
 import 'package:monide/widgets/custom_button.dart';

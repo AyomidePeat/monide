@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:monide/constants/colors.dart';
+import 'package:monide/core/constants/colors.dart';
 import 'package:monide/features/login_screen.dart';
 import 'package:monide/services/map.api.dart';
 import '../services/firebase_auth.dart';

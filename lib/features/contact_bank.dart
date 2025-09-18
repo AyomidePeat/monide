@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:monide/constants/bank_details.dart';
+import 'package:monide/core/constants/bank_details.dart';
 import 'package:monide/widgets/bank_container.dart';
 
-import '../constants/colors.dart';
+import '../core/constants/colors.dart';
 
 class ContactBankScreen extends StatelessWidget {
   const ContactBankScreen({super.key});

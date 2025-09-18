@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:monide/constants/colors.dart';
+import 'package:monide/core/constants/colors.dart';
 import 'package:monide/model/atm_status_model.dart';
 import 'package:monide/features/upload_atm_status.dart';
 import '../services/cloud_firestore.dart';

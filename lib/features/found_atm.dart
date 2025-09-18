@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:monide/constants/colors.dart';
+import 'package:monide/core/constants/colors.dart';
 import 'package:monide/features/upload_atm_status.dart';
 import '../model/nearest_atm_model.dart';
 import '../widgets/nearbyatm_container.dart';

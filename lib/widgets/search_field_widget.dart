@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../constants/bank_details.dart';
+import '../core/constants/bank_details.dart';
 import '../features/search_results_screen.dart';
 import '../services/map.api.dart';
 
