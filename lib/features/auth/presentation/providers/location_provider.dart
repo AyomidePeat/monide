@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:monide/core/error/exceptions.dart';
-import 'package:monide/features/auth/data/repositories/location_repo.dart';
+import 'package:monide/features/auth/data/repositories/firestore_repo.dart';
 import 'package:monide/services/map.api.dart';
 
 final mapApiProvider = Provider<MapApi>((ref) => MapApi());
