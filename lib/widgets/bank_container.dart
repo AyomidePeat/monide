@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:monide/screens/bank_info_screen.dart';
+import 'package:monide/features/bank_info_screen.dart';
 
 class BankContainer extends StatelessWidget {
   final String image;

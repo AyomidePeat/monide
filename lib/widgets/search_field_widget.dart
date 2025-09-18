@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../constants/bank_details.dart';
-import '../screens/search_results_screen.dart';
+import '../features/search_results_screen.dart';
 import '../services/map.api.dart';
 
 final atmLocationProvider = Provider((ref) => mapApiProvider);

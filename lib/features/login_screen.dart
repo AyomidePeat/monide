@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:monide/constants/bank_details.dart';
-import 'package:monide/screens/home_screen.dart';
-import 'package:monide/screens/signup_screen.dart';
+import 'package:monide/features/home_screen.dart';
+import 'package:monide/features/signup_screen.dart';
 import 'package:monide/services/firebase_auth.dart';
 import 'package:monide/services/map.api.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -202,7 +204,7 @@ if (result.isGranted) {
                             child:
                                 CircularProgressIndicator(color: Colors.white),
                           ),
-                        );
+                        );log("error:$output");
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor: deepBlue,
                             content: Text(output,

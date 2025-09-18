@@ -1,17 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:monide/model/user_model.dart';
-
-import '../screens/home_screen.dart';
 import 'cloud_firestore.dart';
 
 class FirebaseAuthentication {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   CloudFirestore cloudFirestore = CloudFirestore();
-  GoogleSignIn googleSignIn = GoogleSignIn();
 
   Future<String> signUp(
       {required String name,
@@ -65,10 +58,8 @@ class FirebaseAuthentication {
     try {
       await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-    
       e.message.toString();
     }
     return output;
   }
-
- }
+}

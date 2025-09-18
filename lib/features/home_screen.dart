@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:monide/constants/bank_details.dart';
 import 'package:monide/constants/colors.dart';
-import 'package:monide/screens/found_atm.dart';
-import 'package:monide/screens/referral_screen.dart';
-import 'package:monide/screens/support_screen.dart';
+import 'package:monide/features/found_atm.dart';
+import 'package:monide/features/referral_screen.dart';
+import 'package:monide/features/support_screen.dart';
 import 'package:monide/services/map.api.dart';
 import 'package:monide/widgets/custom_container.dart';
 import '../constants/text_type_in_effect.dart';
@@ -166,7 +166,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                         color: Colors.white,
                       ),
                       Text(
-                        widget.location,
+                        widget.location??'',
                         overflow: TextOverflow.fade,
                         style: const TextStyle(
                           color: Colors.white,
