@@ -7,7 +7,6 @@ import 'package:monide/features/atm_status/presentation/screens/atm_status_scree
 import 'package:monide/services/map.api.dart';
 import 'package:monide/widgets/search_field_widget.dart';
 import '../../../../widgets/nearbyatm_container.dart';
-import 'dart:math' show pi;
 
 final atmLocationProvider = FutureProvider((ref) => mapApiProvider);
 
@@ -22,8 +21,7 @@ class CheckAtmScreen extends ConsumerStatefulWidget {
 class _CheckAtmScreenState extends ConsumerState<CheckAtmScreen>
     with SingleTickerProviderStateMixin {
   final searchController = TextEditingController();
-  late Animation<double> _animation;
-  late AnimationController _controller;
+  
   Position? position;
   bool isFetchingData =
       false; 
@@ -31,21 +29,12 @@ class _CheckAtmScreenState extends ConsumerState<CheckAtmScreen>
   @override
   void dispose() {
     searchController.dispose();
-    _controller.dispose();
     super.dispose();
   }
 
   var isSearchLoding = false;
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-    _animation = Tween<double>(begin: 0.0, end: 2 * pi).animate(_controller);
-    _controller.repeat();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
