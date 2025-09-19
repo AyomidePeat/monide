@@ -23,11 +23,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Monide?',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home:const HomeScreen());
+   return MaterialApp(
+  title: 'Monide?',
+  debugShowCheckedModeBanner: false,
+  theme: ThemeData(
+  
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Colors.white, 
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white, 
+      ),
+    ),
+    iconTheme: const IconThemeData(
+      color: Colors.white,
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.white),
+      titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+    ),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.white),
+      bodyLarge: TextStyle(color: Colors.white),
+    ),
+  ),
+  home: const HomeScreen(),
+);
+
   }
 }

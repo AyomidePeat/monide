@@ -132,7 +132,7 @@ class ErrorHandler {
       case 'not-found':
         return 'Requested data not found. Please try again.';
       case 'unavailable':
-        return 'Firestore service is currently unavailable. Please check your internet connection.';
+        return  'Please check your internet connection.';
       case 'deadline-exceeded':
         return 'Operation took too long. Please try again.';
       case 'already-exists':
