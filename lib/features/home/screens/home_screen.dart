@@ -218,8 +218,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                         const SizedBox(height: 20),
                         Container(
                           width: double.infinity,
-                          height: 150,                            padding: const EdgeInsets.all(15.0),
-
+                          height: 150,
+                          padding: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 32, 68, 97),
                             borderRadius: BorderRadius.circular(10),
@@ -287,7 +287,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                     ),
                   ),
                   Positioned(
-                    left: size.width*0.5,
+                    left: size.width * 0.5,
                     height: 170,
                     bottom: 10,
                     child: Align(

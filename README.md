@@ -32,12 +32,25 @@ Bank customers often face:
 - **State Management** – Riverpod  
 - **Firebase / REST APIs** – For real-time machine status updates  
 - **LocationIq** – For ATM location & distance   
-- **GNewsApi** – For business and money trends/news
+- **GNewsApi** – For business and money trends/news  
 
 ---
 
 ## 📱 Demo
-![MoniDe Demo](https://github.com/AyomidePeat/monide/raw/main/monide.gif)
+<p align="center">
+  <img src="https://github.com/AyomidePeat/monide/raw/main/monide.gif" width="280" />
+</p>
+
+---
+
+## 📸 Screenshots
+<p align="center">
+  <img src="https://github.com/AyomidePeat/monide/raw/main/home.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/status.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/money_trends.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/contact_bank.png" width="200" />
+</p>
+
 ---
 
 ## 🧑‍💻 Why This Project Matters
