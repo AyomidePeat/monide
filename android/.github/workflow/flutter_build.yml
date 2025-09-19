@@ -1,0 +1,56 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Flutter App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.6' 
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      
+      - name: Flutter Analyze
+        run: flutter analyze
+
+      
+      - name: Flutter Lints
+        run: flutter pub run dart_code_metrics:metrics analyze lib --fatal-infos --fatal-warnings
+
+      
+      - name: Build APK
+        run: flutter build apk --release
+
+      
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab

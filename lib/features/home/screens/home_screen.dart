@@ -7,7 +7,7 @@ import 'package:monide/features/atm_status/presentation/providers/map_provider.d
 import 'package:monide/features/atm_status/presentation/screens/check_atm_screen.dart';
 import 'package:monide/features/contact_bank/screens/contact_bank.dart';
 import 'package:monide/features/atm_status/presentation/screens/found_atm.dart';
-import 'package:monide/features/money_trends/screens/money_trend__list_screen.dart';
+import 'package:monide/features/money_trends/screens/money_trend_list_screen.dart';
 import 'package:monide/features/referral/screens/referral_screen.dart';
 import 'package:monide/features/support/screen.dart/support_screen.dart';
 import 'package:monide/widgets/custom_button.dart';
