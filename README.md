@@ -31,7 +31,8 @@ Bank customers often face:
 - **Dart** – Core language  
 - **State Management** – Riverpod  
 - **Firebase / REST APIs** – For real-time machine status updates  
-- **Google Maps SDK** – For ATM location & directions (planned)  
+- **LocationIq** – For ATM location & distance   
+- **GNewsApi** – For business and money trends/news
 
 ---
 
