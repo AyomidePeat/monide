@@ -45,10 +45,10 @@ Bank customers often face:
 
 ## 📸 Screenshots
 <p align="center">
-  <img src="https://github.com/AyomidePeat/monide/raw/main/home.png" width="200" />
-  <img src="https://github.com/AyomidePeat/monide/raw/main/status.png" width="200" />
-  <img src="https://github.com/AyomidePeat/monide/raw/main/money_trends.png" width="200" />
-  <img src="https://github.com/AyomidePeat/monide/raw/main/contact_bank.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/screenshots/home.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/screenshots/status.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/screenshots/money_trends.png" width="200" />
+  <img src="https://github.com/AyomidePeat/monide/raw/main/screenshots/contact_bank.png" width="200" />
 </p>
 
 ---
