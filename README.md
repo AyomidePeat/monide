@@ -20,7 +20,6 @@ Bank customers often face:
 ## ✨ Features
 - 🔍 **Check ATM Status in Real-Time** – Know before you leave home  
 - 📍 **Location-Based Search** – Find the nearest working ATM  
-- 🔔 **Instant Notifications** – Get alerts when ATM states change  
 - 🎨 **Clean, Modern UI** – Smooth experience built with Flutter  
 - ⚡ **Fast & Reliable** – Optimized with state management (Riverpod/Provider)  
 
