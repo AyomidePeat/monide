@@ -115,8 +115,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
     final size = MediaQuery.of(context).size;
 
     List<Widget> screens = [
-      CheckAtmScreen(
-          nearestAtm: mapState.atms),
+      CheckAtmScreen(nearestAtm: mapState.atms),
       FoundATMScreen(nearbyAtm: mapState.atms),
       const SupportScreen(),
       const MoneyTrendsScreen(),
@@ -135,14 +134,13 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-                    'Hi 👋',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontSize: 17,
-                    ),
-                  ),
-            
+              'Hi 👋',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+                fontSize: 17,
+              ),
+            ),
             Container(
               padding: const EdgeInsets.only(right: 5),
               height: 30,
@@ -220,82 +218,76 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
                         const SizedBox(height: 20),
                         Container(
                           width: double.infinity,
-                          height: 150,
+                          height: 150,                            padding: const EdgeInsets.all(15.0),
+
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 32, 68, 97),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Row(
-                              children: [
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: size.width * 0.45,
-                                      child: const TextEffect(
-                                        text:
-                                            'Find out if ATMs around you are working.',
-                                        overflow: TextOverflow.fade,
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
+                          child: Row(
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.45,
+                                    child: const TextEffect(
+                                      text:
+                                          'Find out if ATMs around you are working.',
+                                      overflow: TextOverflow.fade,
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 30,
-                                      width: 100,
-                                      child: CustomButton(
-                                        color: deepBlue,
-                                        child: mapState.isLoading
-                                            ? const SizedBox(
-                                                height: 20,
-                                                child: AspectRatio(
-                                                  aspectRatio: 1 / 1,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              )
-                                            : const Text('Find ATM'),
-                                        onPressed: () {
-                                          if (!mapState.isLoading) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    FoundATMScreen(
-                                                  nearbyAtm: mapState.atms,
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                    width: 100,
+                                    child: CustomButton(
+                                      color: deepBlue,
+                                      child: mapState.isLoading
+                                          ? const SizedBox(
+                                              height: 20,
+                                              child: AspectRatio(
+                                                aspectRatio: 1 / 1,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                            );
-                                          }
-                                        },
-                                      ),
+                                            )
+                                          : const Text('Find ATM'),
+                                      onPressed: () {
+                                        if (!mapState.isLoading) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FoundATMScreen(
+                                                nearbyAtm: mapState.atms,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
                   Positioned(
-                    left: size.width > 393
-                        ? size.width * 0.70
-                        : size.width > 924
-                            ? size.width * 0.90
-                            : size.width * 0.4,
+                    left: size.width*0.5,
                     height: 170,
                     bottom: 10,
                     child: Align(
