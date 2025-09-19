@@ -19,7 +19,6 @@ class _MoneyTrendsScreenState extends ConsumerState<MoneyTrendsScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch money trends on screen load
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(mapProvider.notifier).fetchMoneyTrends();
     });
