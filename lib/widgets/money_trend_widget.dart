@@ -14,7 +14,6 @@ class MoneyTrendsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
         padding: const EdgeInsets.all(5),
         margin: const EdgeInsets.all(5),

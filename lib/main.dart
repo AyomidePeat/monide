@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:monide/features/home_screen.dart';
-import 'package:monide/features/login_screen.dart';
 
 import 'firebase_options.dart';
 

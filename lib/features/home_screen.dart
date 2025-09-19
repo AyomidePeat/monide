@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:monide/core/constants/colors.dart';
 import 'package:monide/core/constants/text_type_in_effect.dart';
-import 'package:monide/core/providers/app_providers.dart';
 import 'package:monide/features/atm/presentation/providers/map_provider.dart';
-import 'package:monide/features/auth/data/models/user_model.dart';
 import 'package:monide/features/check_atm_screen.dart';
 import 'package:monide/features/contact_bank.dart';
 import 'package:monide/features/found_atm.dart';
@@ -114,7 +112,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapProvider);
-    final userDetailsRef = ref.watch(firestoreProvider);
     final size = MediaQuery.of(context).size;
 
     List<Widget> screens = [
@@ -137,35 +134,15 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen>
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FutureBuilder<UserDetails?>(
-              future: userDetailsRef.getUserDetails(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: CircularProgressIndicator(color: Colors.white));
-                } else if (snapshot.hasError) {
-                  return const Text(
+            const Text(
                     'Hi 👋',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       color: Colors.white,
                       fontSize: 17,
                     ),
-                  );
-                } else {
-                  final userDetails = snapshot.data;
-                  return Text(
-                    userDetails != null ? 'Hi ${userDetails.name}👋' : 'Hello',
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  );
-                }
-              },
-            ),
+                  ),
+            
             Container(
               padding: const EdgeInsets.only(right: 5),
               height: 30,

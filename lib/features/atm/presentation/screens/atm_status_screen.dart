@@ -78,6 +78,8 @@ class AtmStatusScreen extends ConsumerWidget {
                     actions: [
                       TextButton(
                         onPressed: () {
+                                                    Navigator.pop(context);
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -145,6 +147,7 @@ class AtmStatusScreen extends ConsumerWidget {
                     actions: [
                       TextButton(
                         onPressed: () {
+                          Navigator.pop(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
