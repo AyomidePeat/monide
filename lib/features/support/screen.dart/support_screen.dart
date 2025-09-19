@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monide/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../core/constants/colors.dart';
+import '../../../core/constants/colors.dart';
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({super.key});

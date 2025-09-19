@@ -26,7 +26,7 @@ class _CheckAtmScreenState extends ConsumerState<CheckAtmScreen>
   late AnimationController _controller;
   Position? position;
   bool isFetchingData =
-      false; // Add a flag to track if data is currently being fetched
+      false; 
   var nearestAtm;
   @override
   void dispose() {
