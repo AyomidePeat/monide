@@ -53,14 +53,7 @@ Bank customers often face:
 
 ---
 
-## 🧑‍💻 Why This Project Matters
-This project demonstrates:
-- My ability to **solve real-world problems** with technology  
-- Experience building **end-to-end mobile apps** in Flutter  
-- Strong skills in **UI/UX, state management, and API integration**  
-- A product mindset: thinking about **users, banks, and impact**  
 
----
 
 ## 🤝 Contributing
 Want to collaborate? Fork this repo, make improvements, and submit a PR.  
