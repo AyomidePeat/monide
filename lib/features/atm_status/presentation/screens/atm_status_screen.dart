@@ -4,7 +4,7 @@ import 'package:monide/core/constants/colors.dart';
 import 'package:monide/core/providers/app_providers.dart';
 import 'package:monide/domain/entities/atm.dart';
 import 'package:monide/domain/entities/atm_status.dart';
-import 'package:monide/features/upload_atm_status.dart';
+import 'package:monide/features/atm_status/presentation/screens/upload_atm_status.dart';
 
 class AtmStatusScreen extends ConsumerWidget {
   final ATM atm;

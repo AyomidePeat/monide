@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monide/core/constants/colors.dart';
 import 'package:monide/domain/entities/search_result.dart';
-import '../widgets/search_result_container.dart';
+import '../../../../widgets/search_result_container.dart';
 
 class SearchResultsScreen extends StatelessWidget {
   final searchResults;

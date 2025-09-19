@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:monide/core/constants/colors.dart';
 import 'package:monide/domain/entities/atm.dart';
-import 'package:monide/features/atm/presentation/providers/map_provider.dart';
-import 'package:monide/features/atm/presentation/screens/atm_status_screen.dart';
+import 'package:monide/features/atm_status/presentation/providers/map_provider.dart';
+import 'package:monide/features/atm_status/presentation/screens/atm_status_screen.dart';
 import 'package:monide/widgets/nearbyatm_container.dart';
 
 class FoundATMScreen extends ConsumerWidget {

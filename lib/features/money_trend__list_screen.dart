@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:monide/core/constants/colors.dart';
-import 'package:monide/features/atm/presentation/providers/map_provider.dart';
+import 'package:monide/features/atm_status/presentation/providers/map_provider.dart';
 import 'package:monide/widgets/money_trend_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 

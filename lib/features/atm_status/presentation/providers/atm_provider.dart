@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:monide/core/providers/app_providers.dart';
-import 'package:monide/features/atm/data/datasources/repository/map_repository.dart';
+import 'package:monide/features/atm_status/data/datasources/repository/map_repository.dart';
 
 import '../../../../domain/entities/atm.dart';
 

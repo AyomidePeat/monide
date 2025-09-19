@@ -3,7 +3,7 @@ import 'package:monide/core/network/error_handler.dart';
 import 'package:monide/domain/entities/atm.dart';
 import 'package:monide/domain/entities/money_trends.dart';
 import 'package:monide/domain/entities/search_result.dart';
-import 'package:monide/features/atm/data/datasources/map_datasource.dart';
+import 'package:monide/features/atm_status/data/datasources/map_datasource.dart';
 
 class MapRepository {
   final MapDataSource mapDataSource;

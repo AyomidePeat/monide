@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:monide/features/bank_info_screen.dart';
+import 'package:monide/features/atm_status/presentation/screens/bank_info_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class BankContainer extends StatelessWidget {
