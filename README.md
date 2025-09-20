@@ -6,7 +6,7 @@ By providing **real-time ATM machine status**, MoniDe saves customers time, mone
 
 ---
 
-## 🚀 Why MoniDe?
+##  Why MoniDe?
 Bank customers often face:
 - ❌ ATMs out of cash  
 - ❌ Machines out of service  
@@ -17,15 +17,15 @@ Bank customers often face:
 
 ---
 
-## ✨ Features
-- 🔍 **Check ATM Status in Real-Time** – Know before you leave home  
-- 📍 **Location-Based Search** – Find the nearest working ATM  
-- 🎨 **Clean, Modern UI** – Smooth experience built with Flutter  
-- ⚡ **Fast & Reliable** – Optimized with state management (Riverpod/Provider)  
+##  Features
+-  **Check ATM Status in Real-Time** – Know before you leave home  
+-  **Location-Based Search** – Find the nearest working ATM  
+-  **Clean, Modern UI** – Smooth experience built with Flutter  
+-  **Fast & Reliable** – Optimized with state management (Riverpod/Provider)  
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 - **Flutter** – Cross-platform mobile framework  
 - **Dart** – Core language  
 - **State Management** – Riverpod  
@@ -35,14 +35,14 @@ Bank customers often face:
 
 ---
 
-## 📱 Demo
+##  Demo
 <p align="center">
   <img src="https://github.com/AyomidePeat/monide/raw/main/monide.gif" width="280" />
 </p>
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 <p align="center">
   <img src="https://github.com/AyomidePeat/monide/raw/main/screenshots/home.png" width="200" />
   <img src="https://github.com/AyomidePeat/monide/raw/main/screenshots/status.png" width="200" />
@@ -54,10 +54,10 @@ Bank customers often face:
 
 
 
-## 🤝 Contributing
+##  Contributing
 Want to collaborate? Fork this repo, make improvements, and submit a PR.  
 
 ---
 
-## 📄 License
+##  License
 Licensed under MIT License – see the [LICENSE](LICENSE) file for details.  
